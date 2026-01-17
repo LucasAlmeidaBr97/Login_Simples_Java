@@ -1,5 +1,7 @@
 package ui;
 
-public interface menu {
+public interface Menu {
     
+    void showMenu();
+
 }
