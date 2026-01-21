@@ -5,8 +5,6 @@ import service.strategy.FormStrategy;
 public class UserForm {
     private FormStrategy strategy;
 
-    
-
     public UserForm(FormStrategy strategyy) {
         this.strategy = strategy;
     }
