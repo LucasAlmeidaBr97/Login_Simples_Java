@@ -15,9 +15,8 @@ public class User extends BaseEntity {
     private UserRole userRole;
     private EntityStatus status;
 
-    public User(Long id,String name, String email, LocalDate birthDate, UserRole userRole, EntityStatus status) {
+    public User(String name, String email, LocalDate birthDate, UserRole userRole, EntityStatus status) {
         super();
-        this.id = id;
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
