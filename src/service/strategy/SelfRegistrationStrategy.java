@@ -5,15 +5,18 @@ import model.User;
 public class SelfRegistrationStrategy implements FormStrategy {
 
     @Override
-    public void setUserData(User use, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setUserData'");
+    public void setUserData(User user, String password) {
+        System.out.println("Nome: " + user.getName());
+        System.out.println("Email: " + user.getEmail());
+        System.out.println("Data de Nascimento: " + user.getBirthDate());
+        System.out.println("Papel de Usuário: " + user.getUserRole());
+        System.out.println("Status: " + user.getStatus());
+        System.out.println("Senha: " + password);       
     }
 
     @Override
     public boolean isRoleEditable() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isRoleEditable'");
+        return false;
     }
     
 }

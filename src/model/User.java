@@ -59,4 +59,9 @@ public class User extends BaseEntity {
         return status;
     }
 
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+
 }
