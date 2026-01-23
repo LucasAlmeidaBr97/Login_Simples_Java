@@ -5,14 +5,15 @@ import java.time.LocalDateTime;
 import model.enums.EntityStatus;
 
 public class Credentials extends BaseEntity {
-    
+
     private Long id;
     private Long userId;
     private String password;
     private EntityStatus status;
 
-    public Credentials (Long userId, String password) {
+    public Credentials(Long id, Long userId, String password) {
         super();
+        this.id = id;
         this.userId = userId;
         this.password = password;
         this.status = EntityStatus.ACTIVE;
@@ -45,6 +46,14 @@ public class Credentials extends BaseEntity {
 
     public EntityStatus getStatus() {
         return status;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setStatus(EntityStatus status) {
+        this.status = status;
     }
 
 }
