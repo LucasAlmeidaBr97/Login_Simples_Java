@@ -12,14 +12,14 @@ public class UserDAO {
 
     private static final UserDAO instance = new UserDAO();
     
-    private static final Map<Long, User> users = new HashMap<>();
-    private static final Map<String, User> usersByEmail = new HashMap<>();
+    private final Map<Long, User> users = new HashMap<>();
+    private final Map<String, User> usersByEmail = new HashMap<>();
 
     private UserDAO() {
         initUsers();
     }
 
-    public static UserDAO getUserDAO() {
+    public static UserDAO getInstance() {
         return instance;
     }
 
