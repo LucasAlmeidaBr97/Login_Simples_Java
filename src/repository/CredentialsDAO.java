@@ -6,23 +6,52 @@ import java.util.List;
 import java.util.Map;
 
 import model.Credentials;
+import model.User;
 
 public class CredentialsDAO {
 
-    Map<Long, List<Credentials>> credentialsByUserId = new HashMap<>();
+    private static final CredentialsDAO instance = new CredentialsDAO();
+    private final Map<Long, List<Credentials>> credentialsByUserId = new HashMap<>();
 
-    private void initCredentials(){
-        saveCredential(new Credentials(1L, 1L, "Joao.2000"));
-        saveCredential(new Credentials(2l, 2L, "Carlos.2000"));
-        saveCredential(new Credentials(3L, 3L, "Roberto.2000"));
-        saveCredential(new Credentials(4L, 4L, "Lucas.2000"));
-        saveCredential(new Credentials(5L, 1L, "Joao.2001"));
+    private CredentialsDAO() {
+        initCredentials();
     }
 
-     public void saveCredential(Credentials credential) {
+    public static CredentialsDAO getInstance() {
+        return instance;
+    }
+
+    private void initCredentials() {
+
+        UserDAO userDAO = UserDAO.getInstance();
+
+        addCredential(userDAO.findByEmail("joao@email.com"), "Joao.2000");
+        addCredential(userDAO.findByEmail("joao@email.com"), "Joao.2001");
+
+        addCredential(userDAO.findByEmail("carlos@email.com"), "Carlos.2000");
+        addCredential(userDAO.findByEmail("roberto@email.com"), "Roberto.2000");
+        addCredential(userDAO.findByEmail("lucas@email.com"), "Lucas.2000");
+
+    }
+
+    public void addCredential(User user, String password) {
+        Credentials credentials = new Credentials(
+                generateNextCredentialId(),
+                user.getId(),
+                password);
+
         credentialsByUserId
-                .computeIfAbsent(credential.getUserId(), id -> new ArrayList<>())
-                .add(credential);
+                .computeIfAbsent(user.getId(), k -> new ArrayList<>())
+                .add(credentials);
+
     }
-    
+
+    private Long generateNextCredentialId() {
+        return credentialsByUserId.values().stream()
+                .flatMap(List::stream)
+                .map(Credentials::getId)
+                .max(Long::compareTo)
+                .orElse(0L) + 1;
+    }
+
 }
