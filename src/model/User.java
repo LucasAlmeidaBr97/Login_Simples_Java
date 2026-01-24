@@ -63,5 +63,11 @@ public class User extends BaseEntity {
         this.userRole = userRole;
     }
 
+    @Override
+    public String toString() {
+        return "Usuário [ Id = " + id + ", Nome = " + name + ", E-mail = " + email + ", Data de Nascimento = "
+                + birthDate + ", Nivel = "
+                + userRole + ", Status = " + status + "]";
+    }
 
 }

@@ -9,12 +9,16 @@ public class SelfRegistrationStrategy implements FormStrategy {
 
     @Override
     public void setUserData(User user, String password) {
-        userService.registerNewUser(user);     
+        userService.registerNewUser(user, password);
     }
 
     @Override
     public boolean isRoleEditable() {
         return false;
+    }
+
+    public void user(){
+
     }
     
 }

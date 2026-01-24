@@ -11,19 +11,19 @@ import model.enums.UserRole;
 public class UserDAO {
 
     private static final UserDAO instance = new UserDAO();
-    
+
     private final Map<Long, User> users = new HashMap<>();
     private final Map<String, User> usersByEmail = new HashMap<>();
 
     private UserDAO() {
-        initUsers();
+        
     }
 
     public static UserDAO getInstance() {
         return instance;
     }
 
-    private void initUsers() {
+    public void initUsers() {
         saveUser(new User("João", "joao@email.com",
                 LocalDate.of(2002, 2, 2), UserRole.CONSUMER, EntityStatus.ACTIVE));
 
@@ -33,15 +33,11 @@ public class UserDAO {
         saveUser(new User("Roberto", "roberto@email.com",
                 LocalDate.of(2002, 2, 2), UserRole.ADMIN, EntityStatus.ACTIVE));
 
-        saveUser(new User("Lucas", "Lucas@email.com",
+        saveUser(new User("Lucas", "lucas@email.com",
                 LocalDate.of(2002, 2, 2), UserRole.STOKIST, EntityStatus.ACTIVE));
     }
 
-    public void saveUser(User user) {
-        user.setId(generateNextUserId());
-        users.put(user.getId(), user);
-        usersByEmail.put(user.getEmail(), user);
-    }
+    
 
     public User findByEmail(String email) {
         return usersByEmail.get(email);
@@ -52,6 +48,12 @@ public class UserDAO {
                 .stream()
                 .max(Long::compareTo)
                 .orElse(0L) + 1;
+    }
+    
+    public void saveUser(User user) {
+        user.setId(generateNextUserId());
+        users.put(user.getId(), user);
+        usersByEmail.put(user.getEmail(), user);
     }
 
 }
