@@ -1,5 +1,5 @@
-import bootstrap.DataInitializer;
 import ui.MainMenu;
+import util.DataInitializer;
 
 public class App {
     public static void main(String[] args) {

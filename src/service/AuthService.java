@@ -1,5 +1,9 @@
 package service;
 
+import java.util.List;
+import java.util.Map;
+
+import model.Credentials;
 import model.User;
 import repository.CredentialsDAO;
 import repository.UserDAO;
@@ -14,6 +18,12 @@ public class AuthService {
         credentialsDAO.addCredential(newUser, password);
     }
 
-
-
+    public void listCredentials() {
+        Map<Long, List<Credentials>> allCredentials = credentialsDAO.getCredentialsMap();
+        for (List<Credentials> credentialList : allCredentials.values()) {
+            for (Credentials credentials : credentialList) {
+                System.out.println(credentials);
+            }
+        }
+    }
 }

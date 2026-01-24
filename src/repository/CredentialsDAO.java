@@ -22,19 +22,6 @@ public class CredentialsDAO {
         return instance;
     }
 
-    public void initCredentials() {
-
-        UserDAO userDAO = UserDAO.getInstance();
-
-        addCredential(userDAO.findByEmail("joao@email.com"), "Joao.2000");
-        addCredential(userDAO.findByEmail("joao@email.com"), "Joao.2001");
-
-        addCredential(userDAO.findByEmail("carlos@email.com"), "Carlos.2000");
-        addCredential(userDAO.findByEmail("roberto@email.com"), "Roberto.2000");
-        addCredential(userDAO.findByEmail("lucas@email.com"), "Lucas.2000");
-
-    }
-
     public void addCredential(User user, String password) {
         if (user == null) {
             throw new IllegalArgumentException("Usuário não pode ser nulo");
@@ -73,6 +60,10 @@ public class CredentialsDAO {
 
     public List<Credentials> findByUserId(Long userId) {
         return credentialsByUserId.get(userId);
+    }
+
+    public Map<Long, List<Credentials>> getCredentialsMap() {
+        return credentialsByUserId;
     }
 
 }
