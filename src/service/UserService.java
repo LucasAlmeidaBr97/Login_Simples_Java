@@ -24,4 +24,12 @@ public class UserService {
         return userDAO.findByEmail(email) != null;
     }
 
+    public void listUser(){
+        Map<Long, User> allUsers = userDAO.getUserMap();
+        for(User user : allUsers.values()) {
+            System.out.println(user);
+        }
+        
+    }
+
 }
