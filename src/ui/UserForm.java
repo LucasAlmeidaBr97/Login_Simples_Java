@@ -31,7 +31,7 @@ public class UserForm {
         System.out.println("Digite sua senha: ");
         String password = validator.validatePassword(scan.nextLine());
 
-        User user = new User(null, name, email, date, UserRole.CONSUMER, EntityStatus.ACTIVE);
+        User user = new User(name, email, date, UserRole.CONSUMER, EntityStatus.ACTIVE);
 
         if (strategy.isRoleEditable()) {
             System.out.println("Digite o nível (ADMIN, STOKIST):");
