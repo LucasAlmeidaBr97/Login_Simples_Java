@@ -56,4 +56,11 @@ public class Credentials extends BaseEntity {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Credentials [id=" + id + ", userId=" + userId + ", password=" + password + ", status=" + status + "]";
+    }
+
+    
+
 }

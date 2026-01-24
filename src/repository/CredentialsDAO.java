@@ -7,6 +7,7 @@ import java.util.Map;
 
 import model.Credentials;
 import model.User;
+import model.enums.EntityStatus;
 
 public class CredentialsDAO {
 
@@ -14,14 +15,14 @@ public class CredentialsDAO {
     private final Map<Long, List<Credentials>> credentialsByUserId = new HashMap<>();
 
     private CredentialsDAO() {
-        initCredentials();
+
     }
 
     public static CredentialsDAO getInstance() {
         return instance;
     }
 
-    private void initCredentials() {
+    public void initCredentials() {
 
         UserDAO userDAO = UserDAO.getInstance();
 
@@ -35,14 +36,30 @@ public class CredentialsDAO {
     }
 
     public void addCredential(User user, String password) {
+        if (user == null) {
+            throw new IllegalArgumentException("Usuário não pode ser nulo");
+        }
+
+        List<Credentials> list = credentialsByUserId.get(user.getId());
+
+        if (list == null) {
+            list = new ArrayList<>();
+            credentialsByUserId.put(user.getId(), list);
+        }
+
+        for (Credentials c : list) {
+            if (c.getStatus() == EntityStatus.ACTIVE) {
+                c.desativate();
+                break;
+            }
+        }
+
         Credentials credentials = new Credentials(
                 generateNextCredentialId(),
                 user.getId(),
                 password);
 
-        credentialsByUserId
-                .computeIfAbsent(user.getId(), k -> new ArrayList<>())
-                .add(credentials);
+        list.add(credentials);
 
     }
 
@@ -52,6 +69,10 @@ public class CredentialsDAO {
                 .map(Credentials::getId)
                 .max(Long::compareTo)
                 .orElse(0L) + 1;
+    }
+
+    public List<Credentials> findByUserId(Long userId) {
+        return credentialsByUserId.get(userId);
     }
 
 }
