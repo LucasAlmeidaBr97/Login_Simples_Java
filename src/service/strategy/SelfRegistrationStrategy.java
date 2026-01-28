@@ -1,19 +1,19 @@
 package service.strategy;
 
 import model.User;
-import service.AuthService;
+import service.CredentialsService;
 import service.UserService;
 
 public class SelfRegistrationStrategy implements FormStrategy {
 
     private final UserService userService = new UserService();
-    private final AuthService authService = new AuthService();
+    private final CredentialsService credentialsService = new CredentialsService();
 
     @Override
     public void setUserData(User user, String password) {
         userService.registerNewUser(user, password);
         userService.listUser(); 
-        authService.listCredentials(); 
+        credentialsService.listCredentials(); 
     }
 
     @Override
