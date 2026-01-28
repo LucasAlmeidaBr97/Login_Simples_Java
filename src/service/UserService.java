@@ -8,7 +8,7 @@ import repository.UserDAO;
 public class UserService {
 
     private static final UserDAO userDAO = UserDAO.getInstance();
-    private static final AuthService authService = new AuthService();
+    private static final CredentialsService credentialsService = new CredentialsService();
 
     public void registerNewUser(User newUser, String password) {
         if (existUser(newUser.getEmail())) {
@@ -16,7 +16,7 @@ public class UserService {
             return;
         }
         userDAO.saveUser(newUser);
-        authService.registerNewCredentials(newUser, password);
+        credentialsService.registerNewCredentials(newUser, password);
 
     }
 
