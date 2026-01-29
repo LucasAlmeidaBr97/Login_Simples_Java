@@ -10,12 +10,12 @@ import model.enums.EntityStatus;
 import model.enums.UserRole;
 import service.strategy.FormStrategy;
 
-public class UserForm {
+public class RegisterForm {
     private FormStrategy strategy;
     Validator validator = new Validator();
     Scanner scan = new Scanner(System.in);
 
-    public UserForm(FormStrategy strategy) {
+    public RegisterForm(FormStrategy strategy) {
         this.strategy = strategy;
     }
 
