@@ -17,7 +17,6 @@ public class UserService {
         }
         userDAO.saveUser(newUser);
         credentialsService.registerNewCredentials(newUser, password);
-
     }
 
     public boolean existUser(String email) {
