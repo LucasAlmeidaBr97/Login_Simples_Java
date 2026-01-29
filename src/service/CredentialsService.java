@@ -14,7 +14,6 @@ public class CredentialsService {
     
     public void registerNewCredentials(User newUser, String password) {
         newUser.setId(userDAO.findByEmail(newUser.getEmail()).getId());
-
         credentialsDAO.addCredential(newUser, password);
     }
 
@@ -26,4 +25,5 @@ public class CredentialsService {
             }
         }
     }
+
 }

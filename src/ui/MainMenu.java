@@ -32,6 +32,8 @@ public class MainMenu implements Menu {
                     }
                     case 2 -> {
                         System.out.println("Iniciando Login... ");
+                        LoginForm loginForm = new LoginForm();
+                        loginForm.showForm();
                     }
                     case 3 -> System.out.println("Saindo...");
                     default -> System.out.println("Opção inválida!");
