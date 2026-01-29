@@ -2,7 +2,6 @@ package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import service.strategy.FormStrategy;
 import service.strategy.SelfRegistrationStrategy;
 
@@ -28,10 +27,12 @@ public class MainMenu implements Menu {
                     case 1 -> {
                         System.out.println("Iniciando Cadastro... ");
                         FormStrategy strategy = new SelfRegistrationStrategy();
-                        UserForm form = new UserForm(strategy);
+                        RegisterForm form = new RegisterForm(strategy);
                         form.showForm();
                     }
-                    case 2 -> System.out.println("Login...");
+                    case 2 -> {
+                        System.out.println("Iniciando Login... ");
+                    }
                     case 3 -> System.out.println("Saindo...");
                     default -> System.out.println("Opção inválida!");
                 }
