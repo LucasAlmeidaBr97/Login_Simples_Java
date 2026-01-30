@@ -14,6 +14,10 @@ public class UserSession {
     private LocalDateTime startedAt;
     private LocalDateTime finalizedAt;
 
+    public LocalDateTime getFinalizedAt() {
+        return finalizedAt;
+    }
+
     private UserSession() {
 
     }
