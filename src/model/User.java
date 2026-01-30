@@ -15,6 +15,9 @@ public class User extends BaseEntity {
     private UserRole userRole;
     private EntityStatus status;
 
+    public User() {
+    }
+
     public User(String name, String email, LocalDate birthDate, UserRole userRole, EntityStatus status) {
         super();
         this.name = name;

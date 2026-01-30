@@ -28,7 +28,11 @@ public class UserService {
         for(User user : allUsers.values()) {
             System.out.println(user);
         }
-        
+    }
+
+    public User getUser(String email){
+        User user = new User();
+        return user;
     }
 
 }
