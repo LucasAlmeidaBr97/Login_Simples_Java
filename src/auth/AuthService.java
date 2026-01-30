@@ -36,7 +36,7 @@ public class AuthService {
         }
 
     }
-    
+
     public boolean validatePassword(Long userId, String password) {
         List<Credentials> list = credentialsDAO.findByUserId(userId);
         for (Credentials c : list) {
@@ -47,6 +47,11 @@ public class AuthService {
             }
         }
         return false;
+    }
+
+    public void logout(){
+        UserSession.getInstance().stopSession();
+        
     }
 
 }

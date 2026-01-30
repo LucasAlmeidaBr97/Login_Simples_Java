@@ -22,6 +22,7 @@ public class LoginForm {
         System.out.println("Digite sua senha: ");
         String password = validator.validatePassword(scan.nextLine());
         authService.login(email, password);
+        authService.logout();
 
     }
     
