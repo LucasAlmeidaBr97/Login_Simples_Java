@@ -1,6 +1,7 @@
 package auth;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import model.enums.UserRole;
 
@@ -10,6 +11,7 @@ public class UserSession {
 
     private Long userId;
     private String email;
+    private String currentToken;
     private UserRole userRole;
     private LocalDateTime startedAt;
     private LocalDateTime finalizedAt;
@@ -29,6 +31,7 @@ public class UserSession {
     public void startSession(Long userId, String email, UserRole role) {
         this.userId = userId;
         this.email = email;
+        this.currentToken = UUID.randomUUID().toString();
         this.userRole = role;
         this.startedAt = LocalDateTime.now();
         this.finalizedAt = null;
