@@ -44,6 +44,11 @@ public class UserSession {
         this.finalizedAt = LocalDateTime.now();
     }
 
+    public boolean hasAccess(UserRole requiredRole) {
+        if (currentToken == null) return false;
+        return this.userRole == UserRole.ADMIN || this.userRole == requiredRole;
+    }
+
     public boolean isLogged() {
         return userId != null;
     }
