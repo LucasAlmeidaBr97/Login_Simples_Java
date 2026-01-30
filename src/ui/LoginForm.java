@@ -2,7 +2,7 @@ package ui;
 
 import java.util.Scanner;
 
-import service.AuthService;
+import auth.AuthService;
 import util.Validator;
 
 public class LoginForm {
