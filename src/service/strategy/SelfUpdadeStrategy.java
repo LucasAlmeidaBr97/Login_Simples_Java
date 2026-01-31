@@ -2,7 +2,7 @@ package service.strategy;
 
 import model.User;
 
-public class UpdateSelfStrategy implements FormStrategy {
+public class SelfUpdadeStrategy implements FormStrategy {
 
     @Override
     public void setUserData(User user, String password) {
