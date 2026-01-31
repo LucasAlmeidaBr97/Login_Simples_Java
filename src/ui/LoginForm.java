@@ -23,9 +23,7 @@ public class LoginForm {
         System.out.println("Digite sua senha: ");
         String password = validator.validatePassword(scan.nextLine());
         authService.login(email, password);
-        Menu menu = FactoryMenu.createMenu(
-                UserSession.getInstance().getUserRole());
-        menu.setPath();
+        
     }
 
 }

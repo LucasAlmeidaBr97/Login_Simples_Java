@@ -37,18 +37,18 @@ public class ConsumerMenu implements Menu {
     @Override
     public void setPath() {
         int path = 0;
-        while (path != 2) {
+        while (UserSession.getInstance().isLogged()) {
             showMenu();
             try {
                 path = scan.nextInt();
+                scan.nextLine();
                 switch (path) {
                     case 1 -> {
                         consumerProfile();
                     }
                     case 2 -> {
                         authService.logout();
-                        MainMenu mainMenu = new MainMenu();
-                        mainMenu.showMenu();
+                        return;
                     }
                     default -> System.out.println("Opção inválida!");
                 }
