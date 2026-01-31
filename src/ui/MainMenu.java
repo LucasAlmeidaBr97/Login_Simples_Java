@@ -2,6 +2,8 @@ package ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import auth.UserSession;
 import service.strategy.FormStrategy;
 import service.strategy.SelfRegistrationStrategy;
 
@@ -11,14 +13,16 @@ public class MainMenu implements Menu {
 
     @Override
     public void showMenu() {
+       
         System.out.println("####################################");
         System.out.println("          Escolha uma opção");
         System.out.println("1. Cadastrar | 2. Login | 3. Sair");
     }
 
+    @Override
     public void setPath() {
         int path = 0;
-        while (path != 3) {
+        while (!UserSession.getInstance().isLogged()) {
             showMenu();
             try {
                 path = scan.nextInt();

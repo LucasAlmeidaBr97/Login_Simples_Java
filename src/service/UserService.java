@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public User getUser(String email){
-        User user = new User();
+        User user = userDAO.findByEmail(email);
         return user;
     }
 
