@@ -7,5 +7,11 @@ public class StokistMenu implements Menu {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'showMenu'");
     }
+
+    @Override
+    public void setPath() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPath'");
+    }
     
 }

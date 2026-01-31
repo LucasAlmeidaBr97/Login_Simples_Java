@@ -6,5 +6,11 @@ public class AdminMenu implements Menu {
     public void showMenu() {
         throw new UnsupportedOperationException("Unimplemented method 'showMenu'");
     }
+
+    @Override
+    public void setPath() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPath'");
+    }
     
 }
