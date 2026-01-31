@@ -34,6 +34,35 @@ public class ConsumerMenu implements Menu {
         System.out.println("Dados da Conta - E-mail: " + user.getEmail() + ". Status: " + user.getStatus());
     }
 
+    public void profileOptions() {
+        System.out.println("          Escolha uma opção");
+        System.out.println("1. Editar dados pessoais");
+        System.out.println("2. Editar dados da conta");
+        System.out.println("3. voltar");
+    }
+
+    public void profilePath() {
+        int path = 0;
+        while (path != 3) {
+            try {
+                switch (path) {
+                    case 1 -> System.out.println();
+
+                    case 2 -> System.out.println();
+
+                    case 3 -> {
+                        System.out.println("Saindo...");
+                        return;
+                    }
+                    default -> System.out.println("Opção inválida!");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: Entrada inválida! Digite uma das três opções.");
+                scan.nextLine();
+            }
+        }
+    }
+
     @Override
     public void setPath() {
         int path = 0;
@@ -45,6 +74,7 @@ public class ConsumerMenu implements Menu {
                 switch (path) {
                     case 1 -> {
                         consumerProfile();
+                        profileOptions();
                     }
                     case 2 -> {
                         authService.logout();
