@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import auth.AuthService;
@@ -13,6 +14,7 @@ public class ConsumerMenu implements Menu {
     Scanner scan = new Scanner(System.in);
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
+    private final MenuNavigator navigator = new MenuNavigator();
 
     @Override
     public void showMenu() {
@@ -35,57 +37,34 @@ public class ConsumerMenu implements Menu {
     }
 
     public void profileOptions() {
-        System.out.println("          Escolha uma opção");
+        System.out.println("\nEscolha uma opção: ");
         System.out.println("1. Editar dados pessoais");
         System.out.println("2. Editar dados da conta");
-        System.out.println("3. voltar");
+        System.out.println("0. voltar");
     }
 
-    public void profilePath() {
-        int path = 0;
-        while (path != 3) {
-            try {
-                switch (path) {
-                    case 1 -> System.out.println();
-
-                    case 2 -> System.out.println();
-
-                    case 3 -> {
-                        System.out.println("Saindo...");
-                        return;
-                    }
-                    default -> System.out.println("Opção inválida!");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Erro: Entrada inválida! Digite uma das três opções.");
-                scan.nextLine();
-            }
-        }
+    public void profileFlow(){
+        consumerProfile();
+        navigator.navigate(
+            this::profileOptions,
+            Map.of(
+                1, () -> System.out.println("Editar dados pessoais"),
+                2, () -> System.out.println("Editar dados da conta"),
+                0, () -> {}
+            ));
     }
 
     @Override
     public void setPath() {
-        int path = 0;
-        while (UserSession.getInstance().isLogged()) {
-            showMenu();
-            try {
-                path = scan.nextInt();
-                scan.nextLine();
-                switch (path) {
-                    case 1 -> {
-                        consumerProfile();
-                        profileOptions();
-                    }
-                    case 2 -> {
-                        authService.logout();
-                        return;
-                    }
-                    default -> System.out.println("Opção inválida!");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Erro: Entrada inválida! Digite uma das três opções.");
-                scan.nextLine();
+        navigator.navigate(
+            this::showMenu, // <- Refêrencia ao método show menu 
+        Map.of(// <- Cria map ja preenchido
+            1, this::profileFlow, //<-- ação 1
+            2, () -> { //() -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na "mão"
+                authService.logout();
+                System.exit(0);
             }
-        }
+
+        ));
     }
 }
