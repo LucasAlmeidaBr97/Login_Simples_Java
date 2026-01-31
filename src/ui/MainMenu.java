@@ -13,7 +13,6 @@ public class MainMenu implements Menu {
 
     @Override
     public void showMenu() {
-       
         System.out.println("####################################");
         System.out.println("          Escolha uma opção");
         System.out.println("1. Cadastrar | 2. Login | 3. Sair");
@@ -26,6 +25,7 @@ public class MainMenu implements Menu {
             showMenu();
             try {
                 path = scan.nextInt();
+                scan.nextLine(); 
                 switch (path) {
                     case 1 -> {
                         System.out.println("Iniciando Cadastro... ");
@@ -38,7 +38,10 @@ public class MainMenu implements Menu {
                         LoginForm loginForm = new LoginForm();
                         loginForm.showForm();
                     }
-                    case 3 -> System.out.println("Saindo...");
+                    case 3 -> {
+                        System.out.println("Saindo...");
+                        return;
+                    }
                     default -> System.out.println("Opção inválida!");
                 }
             } catch (InputMismatchException e) {
