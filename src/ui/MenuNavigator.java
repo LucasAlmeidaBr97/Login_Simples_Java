@@ -7,9 +7,16 @@ import java.util.Scanner;
 public class MenuNavigator {
 
     private final Scanner scan = new Scanner(System.in);
+    private boolean running = true;
+
+    public void stop() {
+        running = false;
+    }
 
     public void navigate(Runnable showMenu, Map<Integer, Runnable> actions) { // < - map actions encapsula ações.
-        while (true) {
+
+        running = true;
+        while (running) {
             showMenu.run();
             try {
                 int option = scan.nextInt();
