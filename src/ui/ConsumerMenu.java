@@ -61,7 +61,7 @@ public class ConsumerMenu implements Menu {
             1, this::profileFlow, //<-- ação 1
             2, () -> { //() -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na "mão"
                 authService.logout();
-                System.exit(0);
+                navigator.stop(); 
             }
 
         ));
