@@ -28,7 +28,9 @@ public class AuthService {
 
         if (validatePassword(user.getId(), password)) {
             UserSession.getInstance().startSession(user.getId(), user.getEmail(), user.getUserRole());
+            System.out.println("\n===========================");
             System.out.println("Login Efetuado com sucesso!");
+            System.out.println("===========================");
             return true;
         } else {
             System.out.println("Senha incorreta!");
