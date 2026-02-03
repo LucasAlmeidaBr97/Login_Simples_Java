@@ -8,7 +8,6 @@ import auth.UserSession;
 import model.User;
 import service.UserService;
 import service.strategy.FormStrategy;
-import service.strategy.SelfRegistrationStrategy;
 import service.strategy.SelfUpdadeStrategy;
 
 public class ConsumerMenu implements Menu {
@@ -39,37 +38,41 @@ public class ConsumerMenu implements Menu {
     }
 
     public void profileOptions() {
+        System.out.println("--------------------------------------");
         System.out.println("Escolha uma opção: ");
         System.out.println("1. Editar dados pessoais");
         System.out.println("2. Editar dados da conta");
         System.out.println("0. voltar");
     }
 
-    public void profileFlow(){
+    public void profileFlow() {
         consumerProfile();
         navigator.navigate(
-            this::profileOptions,
-            Map.of(
-                1, this::updateFlow,
-                2, () -> System.out.println("Editar dados da conta"),
-                0, () -> {}
-            ));
+                this::profileOptions,
+                Map.of(
+                        1, this::updateFlow,
+                        2, () -> System.out.println("Editar dados da conta"),
+                        0, () -> {
+                        }));
     }
 
-    public void updateFlow(){
+    public void updateFlow() {
         navigator.navigate(
-            null,
-            null);
+                this::updateOptions,
+                Map.of(1, this::updateName,
+                        2, () -> System.out.println("Atualizar data de nascimento"),
+                        0, () -> {
+                        }));
     }
 
-    public void updateOptions(){
+    public void updateOptions() {
         System.out.println("\n####################################");
         System.out.println("      Atualizar informações do seu perfil");
         System.out.println("Escolha uma opção");
         System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
     }
 
-    public void updateName(){
+    public void updateName() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForm = new UpdateForms(formStrategy);
         updateForm.showForm();
@@ -78,14 +81,15 @@ public class ConsumerMenu implements Menu {
     @Override
     public void setPath() {
         navigator.navigate(
-            this::showMenu, // <- Refêrencia ao método show menu 
-        Map.of(// <- Cria map ja preenchido
-            1, this::profileFlow, //<-- ação 1
-            2, () -> { //() -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na "mão"
-                authService.logout();
-                navigator.stop(); 
-            }
+                this::showMenu, // <- Refêrencia ao método show menu
+                Map.of(// <- Cria map ja preenchido
+                        1, this::profileFlow, // <-- ação 1
+                        2, () -> { // () -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na
+                                   // "mão"
+                            authService.logout();
+                            navigator.stop();
+                        }
 
-        ));
+                ));
     }
 }
