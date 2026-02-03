@@ -14,7 +14,7 @@ public class MainMenu implements Menu {
 
     @Override
     public void showMenu() {
-        System.out.println("####################################");
+        System.out.println("\n####################################");
         System.out.println("          Escolha uma opção");
         System.out.println("1. Cadastrar | 2. Login | 0. Sair");
     }

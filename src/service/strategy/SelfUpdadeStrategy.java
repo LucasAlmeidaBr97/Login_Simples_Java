@@ -16,7 +16,6 @@ public class SelfUpdadeStrategy implements FormStrategy {
             userService.listUser();    
         } else {
             credentialsService.registerNewCredentials(user, password);
-            credentialsService.listCredentials();
         }
     }
 

@@ -12,8 +12,6 @@ public class SelfRegistrationStrategy implements FormStrategy {
     @Override
     public void setUserData(User user, String password) {
         userService.registerNewUser(user, password);
-        userService.listUser(); 
-        credentialsService.listCredentials(); 
     }
 
     @Override
