@@ -86,4 +86,8 @@ public class UpdateForms {
             System.out.println("-------------------------------------------------------------");
         }
     }
+
+    public void updateStatus(){
+        
+    }
 }

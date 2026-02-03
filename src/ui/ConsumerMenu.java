@@ -81,6 +81,11 @@ public class ConsumerMenu implements Menu {
         System.out.println("1. Senha | 2. Ativar/Desativar | 0. Voltar");
     }
 
+    public void updateStatus(){
+        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UpdateForms updateForms = new UpdateForms(formStrategy);    
+    }
+
     public void updatePassword() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
