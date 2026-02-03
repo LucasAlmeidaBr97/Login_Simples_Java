@@ -70,6 +70,10 @@ public class User extends BaseEntity {
         this.name = name;
     }
 
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
     @Override
     public String toString() {
         return "Usuário [ Id = " + id + ", Nome = " + name + ", E-mail = " + email + ", Data de Nascimento = "
