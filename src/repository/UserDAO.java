@@ -41,4 +41,9 @@ public class UserDAO {
         usersByEmail.put(user.getEmail(), user);
     }
 
+    public void updateUser(User user){
+        users.put(user.getId(), user);
+        usersByEmail.put(user.getEmail(), user);
+    }
+
 }
