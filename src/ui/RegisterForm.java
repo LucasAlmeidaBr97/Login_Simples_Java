@@ -35,12 +35,14 @@ public class RegisterForm {
 
         if (strategy.isRoleEditable()) {
             System.out.println("Digite o nível (ADMIN, STOKIST):");
-            String role = validator.validateRole(scan.nextLine().toUpperCase()); 
+            String role = validator.validateRole(scan.nextLine().toUpperCase());
             user.setUserRole(UserRole.valueOf(role));
         }
         strategy.setUserData(user, password);
 
-        System.out.println("Processamento concluído!");
+        System.out.println("\n==============================");
+        System.out.println("Cadastro efetuado com sucesso!");
+        System.out.println("==============================");
     }
 
 }

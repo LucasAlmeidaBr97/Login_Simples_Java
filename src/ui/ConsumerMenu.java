@@ -75,7 +75,7 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updateAccountOptions() {
-        System.out.println("\n####################################");
+        System.out.println("\n########################################");
         System.out.println("      Atualizar informações da sua conta");
         System.out.println("Escolha uma opção");
         System.out.println("1. Senha | 2. Ativar/Desativar | 0. Voltar");
@@ -88,7 +88,7 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updatePersonalOptions() {
-        System.out.println("\n####################################");
+        System.out.println("\n#########################################");
         System.out.println("      Atualizar informações do seu perfil");
         System.out.println("Escolha uma opção");
         System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
