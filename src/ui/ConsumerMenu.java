@@ -50,17 +50,17 @@ public class ConsumerMenu implements Menu {
         navigator.navigate(
                 this::profileOptions,
                 Map.of(
-                        1, this::updateFlow,
+                        1, this::updatePersonalFlow,
                         2, () -> System.out.println("Editar dados da conta"),
                         0, () -> {
                         }));
     }
 
-    public void updateFlow() {
+    public void updatePersonalFlow() {
         navigator.navigate(
                 this::updateOptions,
                 Map.of(1, this::updateName,
-                        2, () -> System.out.println("Atualizar data de nascimento"),
+                        2, this::updateBirth,
                         0, () -> {
                         }));
     }
@@ -76,6 +76,12 @@ public class ConsumerMenu implements Menu {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForm = new UpdateForms(formStrategy);
         updateForm.showForm();
+    }
+
+    public void updateBirth(){
+        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UpdateForms updateForms = new UpdateForms(formStrategy);
+        updateForms.birthForm();
     }
 
     @Override
