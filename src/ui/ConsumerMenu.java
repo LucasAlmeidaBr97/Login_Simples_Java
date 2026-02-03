@@ -51,21 +51,43 @@ public class ConsumerMenu implements Menu {
                 this::profileOptions,
                 Map.of(
                         1, this::updatePersonalFlow,
-                        2, () -> System.out.println("Editar dados da conta"),
+                        2, this::updateAccountFlow,
                         0, () -> {
                         }));
     }
 
     public void updatePersonalFlow() {
         navigator.navigate(
-                this::updateOptions,
+                this::updatePersonalOptions,
                 Map.of(1, this::updateName,
                         2, this::updateBirth,
                         0, () -> {
                         }));
     }
 
-    public void updateOptions() {
+    public void updateAccountFlow() {
+        navigator.navigate(
+                this::updateAccountOptions,
+                Map.of(1, this::updatePassword,
+                        2, () -> System.out.println("Ativar/Desativar"),
+                        0, () -> {
+                        }));
+    }
+
+    public void updateAccountOptions() {
+        System.out.println("\n####################################");
+        System.out.println("      Atualizar informações da sua conta");
+        System.out.println("Escolha uma opção");
+        System.out.println("1. Senha | 2. Ativar/Desativar | 0. Voltar");
+    }
+
+    public void updatePassword() {
+        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UpdateForms updateForms = new UpdateForms(formStrategy);
+        updateForms.passwordForm();
+    }
+
+    public void updatePersonalOptions() {
         System.out.println("\n####################################");
         System.out.println("      Atualizar informações do seu perfil");
         System.out.println("Escolha uma opção");
@@ -78,7 +100,7 @@ public class ConsumerMenu implements Menu {
         updateForm.showForm();
     }
 
-    public void updateBirth(){
+    public void updateBirth() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
         updateForms.birthForm();
