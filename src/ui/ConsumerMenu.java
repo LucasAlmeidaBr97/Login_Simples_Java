@@ -7,6 +7,9 @@ import auth.AuthService;
 import auth.UserSession;
 import model.User;
 import service.UserService;
+import service.strategy.FormStrategy;
+import service.strategy.SelfRegistrationStrategy;
+import service.strategy.SelfUpdadeStrategy;
 
 public class ConsumerMenu implements Menu {
 
@@ -36,7 +39,7 @@ public class ConsumerMenu implements Menu {
     }
 
     public void profileOptions() {
-        System.out.println("\nEscolha uma opção: ");
+        System.out.println("Escolha uma opção: ");
         System.out.println("1. Editar dados pessoais");
         System.out.println("2. Editar dados da conta");
         System.out.println("0. voltar");
@@ -47,10 +50,29 @@ public class ConsumerMenu implements Menu {
         navigator.navigate(
             this::profileOptions,
             Map.of(
-                1, () -> System.out.println("Editar dados pessoais"),
+                1, this::updateFlow,
                 2, () -> System.out.println("Editar dados da conta"),
                 0, () -> {}
             ));
+    }
+
+    public void updateFlow(){
+        navigator.navigate(
+            null,
+            null);
+    }
+
+    public void updateOptions(){
+        System.out.println("\n####################################");
+        System.out.println("      Atualizar informações do seu perfil");
+        System.out.println("Escolha uma opção");
+        System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
+    }
+
+    public void updateName(){
+        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UpdateForms updateForm = new UpdateForms(formStrategy);
+        updateForm.showForm();
     }
 
     @Override

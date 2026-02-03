@@ -10,6 +10,8 @@ public class UserSession {
     private static final UserSession instance = new UserSession();
 
     private Long userId;
+    
+
     private String email;
     private String currentToken;
     private UserRole userRole;
@@ -59,5 +61,9 @@ public class UserSession {
 
     public UserRole getUserRole() {
         return userRole;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }
