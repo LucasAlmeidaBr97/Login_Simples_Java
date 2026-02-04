@@ -74,6 +74,10 @@ public class User extends BaseEntity {
         this.birthDate = birthDate;
     }
 
+    public void setStatus(EntityStatus status){
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Usuário [ Id = " + id + ", Nome = " + name + ", E-mail = " + email + ", Data de Nascimento = "

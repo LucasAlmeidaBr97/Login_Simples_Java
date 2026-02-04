@@ -10,6 +10,7 @@ import model.enums.EntityStatus;
 import service.UserService;
 import service.strategy.FormStrategy;
 import service.strategy.SelfUpdadeStrategy;
+import ui.UpdateForms.UpdateResult;
 
 public class ConsumerMenu implements Menu {
 
@@ -86,6 +87,7 @@ public class ConsumerMenu implements Menu {
         EntityStatus status = userService.getUser(UserSession.getInstance().getEmail()).getStatus();
         System.out.println("--------------------------------------");
         System.out.println("O status atual da sua conta é: " + status.getLabel());
+        System.out.println("--------------------------------------");
         if (status == EntityStatus.ACTIVE) {
             System.out.println("1. Desativar | 0. Voltar |");
         } else if (status == EntityStatus.INACTIVE) {
@@ -96,7 +98,7 @@ public class ConsumerMenu implements Menu {
     public void updateStatusFlow() {
         navigator.navigate(this::updateStatusMenu,
                 Map.of(
-                        1, () -> System.out.println("Ativar/Desativar"),
+                        1, this::updateStatus,
                         0, () -> {
 
                         }));
@@ -105,12 +107,17 @@ public class ConsumerMenu implements Menu {
     public void updateStatus() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
+        updateForms.updateStatus();
     }
 
     public void updatePassword() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
-        updateForms.passwordForm();
+        UpdateResult result = updateForms.updateStatus();
+        if (result == UpdateResult.LOGOUT) {
+            authService.logout();
+            navigator.stop();
+        }
     }
 
     public void updatePersonalOptions() {
