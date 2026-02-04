@@ -20,6 +20,12 @@ public class UpdateForms {
     private final UserService userService = new UserService();
     private final MenuNavigator navigator = new MenuNavigator();
 
+    public enum UpdateResult {
+        UPDATED,
+        LOGOUT,
+        CANCEL
+    }
+
     public UpdateForms(FormStrategy strategy) {
         this.strategy = strategy;
     }
@@ -79,8 +85,8 @@ public class UpdateForms {
                 strategy.setUserData(userService.getUser(UserSession.getInstance().getEmail()), newPassword);
             } else {
                 System.out.println("\n--------------------------------------------------------------------------");
-            System.out.println(" ### Não foi possível Atualizar sua senha. Senhas informadas divergem  ###");
-            System.out.println("--------------------------------------------------------------------------");    
+                System.out.println(" ### Não foi possível Atualizar sua senha. Senhas informadas divergem  ###");
+                System.out.println("--------------------------------------------------------------------------");
             }
         } else {
             System.out.println("\n-------------------------------------------------------------");
@@ -89,15 +95,26 @@ public class UpdateForms {
         }
     }
 
-    public void updateStatus(){
+    public UpdateResult updateStatus() {
         System.out.println("Digite sua senha para confirmar as atualizações: ");
         String password = validator.validatePassword(scan.nextLine());
-        if (authService.validatePassword(UserSession.getInstance().getUserId(), password)){
-            User user = userService.getUser(UserSession.getInstance().getEmail());
-            if (user.getStatus() == EntityStatus.ACTIVE) {
-                
-            }
+
+        if (!authService.validatePassword(
+                UserSession.getInstance().getUserId(), password)) {
+            return UpdateResult.CANCEL;
         }
-        
+
+        User user = userService.getUser(
+                UserSession.getInstance().getEmail());
+
+        if (user.getStatus() == EntityStatus.ACTIVE) {
+            user.setStatus(EntityStatus.INACTIVE);
+            strategy.setUserData(user, null);
+            return UpdateResult.LOGOUT;
+        }
+
+        user.setStatus(EntityStatus.ACTIVE);
+        strategy.setUserData(user, null);
+        return UpdateResult.UPDATED;
     }
 }
