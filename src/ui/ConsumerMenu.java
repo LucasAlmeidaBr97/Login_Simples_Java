@@ -87,7 +87,6 @@ public class ConsumerMenu implements Menu {
         EntityStatus status = userService.getUser(UserSession.getInstance().getEmail()).getStatus();
         System.out.println("--------------------------------------");
         System.out.println("O status atual da sua conta é: " + status.getLabel());
-        System.out.println("--------------------------------------");
         if (status == EntityStatus.ACTIVE) {
             System.out.println("1. Desativar | 0. Voltar |");
         } else if (status == EntityStatus.INACTIVE) {
@@ -107,17 +106,17 @@ public class ConsumerMenu implements Menu {
     public void updateStatus() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
-        updateForms.updateStatus();
+         UpdateResult result = updateForms.updateStatus();
+        if (result == UpdateResult.LOGOUT) {
+            authService.logout();
+            navigator.stop();
+        }
     }
 
     public void updatePassword() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
-        UpdateResult result = updateForms.updateStatus();
-        if (result == UpdateResult.LOGOUT) {
-            authService.logout();
-            navigator.stop();
-        }
+        updateForms.passwordForm();
     }
 
     public void updatePersonalOptions() {
