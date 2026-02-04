@@ -6,6 +6,7 @@ import java.util.Scanner;
 import auth.AuthService;
 import auth.UserSession;
 import model.User;
+import model.enums.EntityStatus;
 import service.UserService;
 import service.strategy.FormStrategy;
 import service.strategy.SelfUpdadeStrategy;
@@ -69,7 +70,7 @@ public class ConsumerMenu implements Menu {
         navigator.navigate(
                 this::updateAccountOptions,
                 Map.of(1, this::updatePassword,
-                        2, () -> System.out.println("Ativar/Desativar"),
+                        2, this::updateStatusFlow,
                         0, () -> {
                         }));
     }
@@ -81,9 +82,29 @@ public class ConsumerMenu implements Menu {
         System.out.println("1. Senha | 2. Ativar/Desativar | 0. Voltar");
     }
 
-    public void updateStatus(){
+    public void updateStatusMenu() {
+        EntityStatus status = userService.getUser(UserSession.getInstance().getEmail()).getStatus();
+        System.out.println("--------------------------------------");
+        System.out.println("O status atual da sua conta é: " + status.getLabel());
+        if (status == EntityStatus.ACTIVE) {
+            System.out.println("1. Desativar | 0. Voltar |");
+        } else if (status == EntityStatus.INACTIVE) {
+            System.out.println("1. Ativar | 0. Voltar |");
+        }
+    }
+
+    public void updateStatusFlow() {
+        navigator.navigate(this::updateStatusMenu,
+                Map.of(
+                        1, () -> System.out.println("Ativar/Desativar"),
+                        0, () -> {
+
+                        }));
+    }
+
+    public void updateStatus() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
-        UpdateForms updateForms = new UpdateForms(formStrategy);    
+        UpdateForms updateForms = new UpdateForms(formStrategy);
     }
 
     public void updatePassword() {

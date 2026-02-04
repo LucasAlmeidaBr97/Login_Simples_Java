@@ -6,6 +6,7 @@ import java.util.Scanner;
 import auth.AuthService;
 import auth.UserSession;
 import model.User;
+import model.enums.EntityStatus;
 import service.CredentialsService;
 import service.UserService;
 import service.strategy.FormStrategy;
@@ -17,6 +18,7 @@ public class UpdateForms {
     Validator validator = new Validator();
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
+    private final MenuNavigator navigator = new MenuNavigator();
 
     public UpdateForms(FormStrategy strategy) {
         this.strategy = strategy;
@@ -88,6 +90,14 @@ public class UpdateForms {
     }
 
     public void updateStatus(){
+        System.out.println("Digite sua senha para confirmar as atualizações: ");
+        String password = validator.validatePassword(scan.nextLine());
+        if (authService.validatePassword(UserSession.getInstance().getUserId(), password)){
+            User user = userService.getUser(UserSession.getInstance().getEmail());
+            if (user.getStatus() == EntityStatus.ACTIVE) {
+                
+            }
+        }
         
     }
 }
