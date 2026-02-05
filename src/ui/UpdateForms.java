@@ -110,6 +110,7 @@ public class UpdateForms {
         if (user.getStatus() == EntityStatus.ACTIVE) {
             user.setStatus(EntityStatus.INACTIVE);
             strategy.setUserData(user, null);
+            System.out.println("Usuário desativado. Saindo...");
             return UpdateResult.LOGOUT;
         }
 

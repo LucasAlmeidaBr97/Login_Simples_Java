@@ -21,8 +21,13 @@ public class AuthService {
             System.out.println("Email não cadastrado");
         }
 
-        if (user.getStatus() != EntityStatus.ACTIVE) {
-            System.out.println("Usuário está inativo ou bloqueado.");
+        if (user.getStatus() == EntityStatus.INACTIVE) {
+            System.out.println("Usuário está inativo.");
+            return false;
+        }
+
+        if (user.getStatus() == EntityStatus.LOCKED) {
+            System.out.println("Usuário está bloqueado contate um administrador.");
             return false;
         }
 
@@ -51,9 +56,9 @@ public class AuthService {
         return false;
     }
 
-    public void logout(){
+    public void logout() {
         UserSession.getInstance().stopSession();
-        
+
     }
 
 }
