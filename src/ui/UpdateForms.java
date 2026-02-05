@@ -119,16 +119,28 @@ public class UpdateForms {
         return UpdateResult.UPDATED;
     }
 
-    public void updateUser(User user) {
-        System.out.println("Digite seu nome: ");
-        String name = validator.validateName(scan.nextLine());
-        System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
-        LocalDate date = validator.validateDate(scan.nextLine());
-        user.setName(name);
-        user.setBirthDate(date);
-        passwordForm();
-        strategy.setUserData(user, null);
-        String password = authService.getPassword(user.getId());
-        authService.login(user.getEmail(), password);
+    public void reactivateUser(User user) {
+        System.out.println("Digite seu nome:");
+        user.setName(validator.validateName(scan.nextLine()));
+
+        System.out.println("Digite sua data de nascimento (dd/MM/yyyy):");
+        user.setBirthDate(validator.validateDate(scan.nextLine()));
+
+        System.out.println("Defina uma nova senha:");
+        String newPassword = validator.validatePassword(scan.nextLine());
+
+        System.out.println("Confirme a nova senha:");
+        String confirm = validator.validatePassword(scan.nextLine());
+
+        if (!newPassword.equals(confirm)) {
+            System.out.println("Senhas não conferem.");
+            return;
+        }
+
+        user.setStatus(EntityStatus.ACTIVE);
+        strategy.setUserData(user, newPassword);
+
+        System.out.println("Conta reativada com sucesso!");
+        System.out.println("Agora você pode fazer login.");
     }
 }

@@ -27,24 +27,17 @@ public class AuthService {
         }
 
         if (user.getStatus() == EntityStatus.INACTIVE) {
-            System.out.println("\n========================");
-            System.out.println("Usuário está desativado.");
-            System.out.println("=========================");
-            System.out.println(
-                    "Para continuar e reativar sua conta é nescessario atualizar suas informações, Deseja Continuar?");
+            System.out.println("Usuário desativado.");
+            System.out.println("Deseja reativar a conta?");
             System.out.println("1. Sim | 0. Voltar");
+
             int option = scan.nextInt();
-            switch (option) {
-                case 1:
-                    FormStrategy formStrategy = new SelfUpdadeStrategy();
-                    UpdateForms updateForms = new UpdateForms(formStrategy);
-                    updateForms.updateUser(user);
-                    break;
-                case 2:
-                    return false;
-                default:
-                    System.out.println("Opção invalida!");
-                    break;
+            scan.nextLine();
+
+            if (option == 1) {
+                FormStrategy strategy = new SelfUpdadeStrategy();
+                UpdateForms forms = new UpdateForms(strategy);
+                forms.reactivateUser(user); // 👈 método novo
             }
             return false;
         }
