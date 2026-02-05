@@ -106,9 +106,9 @@ public class ConsumerMenu implements Menu {
     public void updateStatus() {
         FormStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
-         UpdateResult result = updateForms.updateStatus();
+        UpdateResult result = updateForms.updateStatus();
         if (result == UpdateResult.LOGOUT) {
-            
+
             authService.logout();
             navigator.stop();
         }
