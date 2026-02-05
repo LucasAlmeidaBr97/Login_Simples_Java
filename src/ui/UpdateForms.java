@@ -117,4 +117,15 @@ public class UpdateForms {
         strategy.setUserData(user, null);
         return UpdateResult.UPDATED;
     }
+
+    public void updateUser(User user) {
+        System.out.println("Digite seu nome: ");
+        String name = validator.validateName(scan.nextLine());
+        System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
+        LocalDate date = validator.validateDate(scan.nextLine());
+        user.setName(name);
+        user.setBirthDate(date);
+        passwordForm();
+        strategy.setUserData(user, null);
+    }
 }
