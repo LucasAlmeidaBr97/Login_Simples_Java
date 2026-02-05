@@ -128,5 +128,7 @@ public class UpdateForms {
         user.setBirthDate(date);
         passwordForm();
         strategy.setUserData(user, null);
+        String password = authService.getPassword(user.getId());
+        authService.login(user.getEmail(), password);
     }
 }
