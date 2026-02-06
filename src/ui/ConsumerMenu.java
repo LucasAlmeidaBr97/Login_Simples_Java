@@ -8,16 +8,20 @@ import auth.UserSession;
 import model.User;
 import model.enums.EntityStatus;
 import service.UserService;
-import service.strategy.UserSaveStrategy;
+import service.strategy.SelfRegistrationStrategy;
+import service.strategy.SelfServiceStrategy;
 import service.strategy.SelfUpdadeStrategy;
 import ui.UpdateForms.UpdateResult;
 
 public class ConsumerMenu implements Menu {
 
-    Scanner scan = new Scanner(System.in);
+    private final Scanner scan = new Scanner(System.in);
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
     private final MenuNavigator navigator = new MenuNavigator();
+
+    private final SelfServiceStrategy strategy = new SelfServiceStrategy();
+    private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
 
     @Override
     public void showMenu() {
@@ -30,13 +34,14 @@ public class ConsumerMenu implements Menu {
     public void consumerProfile() {
         System.out.println("\n####################################");
         System.out.println("      Informações do seu perfil");
-        System.out.println("Você pode adicionar, alterar ou corrigir suas informações \npessoais e os dados da conta.");
-        System.out.println("--------------------------------------");
         String email = UserSession.getInstance().getEmail();
-        User user = (userService.getUser(email));
-        System.out.println("Dados Pessoais - Nome: " + user.getName() + ". Aniversário: " + user.getBirthDate());
+        User user = userService.getUser(email);
+
         System.out.println("--------------------------------------");
-        System.out.println("Dados da Conta - E-mail: " + user.getEmail() + ". Status: " + user.getStatus());
+        System.out.println("Nome: " + user.getName() + " | Nascimento: " + user.getBirthDate());
+        System.out.println("E-mail: " + user.getEmail() + " | Status: " + user.getStatus());
+        System.out.println("--------------------------------------");
+
     }
 
     public void profileOptions() {
@@ -45,6 +50,76 @@ public class ConsumerMenu implements Menu {
         System.out.println("1. Editar dados pessoais");
         System.out.println("2. Editar dados da conta");
         System.out.println("0. voltar");
+    }
+
+    public void updateAccountOptions() {
+        System.out.println("\n########################################");
+        System.out.println("      Atualizar informações da sua conta");
+        System.out.println("Escolha uma opção");
+        System.out.println("1. Senha | 2. Ativar/Desativar | 0. Voltar");
+    }
+
+    public void updatePersonalOptions() {
+        System.out.println("\n#########################################");
+        System.out.println("      Atualizar informações do seu perfil");
+        System.out.println("Escolha uma opção");
+        System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
+    }
+
+    public void updateStatusMenu() {
+        EntityStatus status = userService.getUser(UserSession.getInstance().getEmail()).getStatus();
+        System.out.println("--------------------------------------");
+        System.out.println("O status atual da sua conta é: " + status.getLabel());
+        if (status == EntityStatus.ACTIVE) {
+            System.out.println("1. Desativar | 0. Voltar |");
+        } else if (status == EntityStatus.INACTIVE) {
+            System.out.println("1. Ativar | 0. Voltar |");
+        }
+    }
+
+    public void updateStatus() {
+        
+        var result = updateForms.updateStatus();
+        if (result == UpdateResult.LOGOUT) {
+            authService.logout();
+            navigator.stop();
+        }
+    }
+
+    public void updatePassword() {
+        updateForms.passwordForm();
+    }
+
+    public void updateName() {
+        updateForms.showForm();
+    }
+
+    public void updateBirth() {
+        updateForms.birthForm();
+    }
+
+    @Override
+    public void setPath() {
+        navigator.navigate(
+                this::showMenu, // <- Refêrencia ao método show menu
+                Map.of(// <- Cria map ja preenchido
+                        1, this::profileFlow, // <-- ação 1
+                        2, () -> { // () -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na
+                                   // "mão"
+                            authService.logout();
+                            navigator.stop();
+                        }
+
+                ));
+    }
+
+    public void updateStatusFlow() {
+        navigator.navigate(this::updateStatusMenu,
+                Map.of(
+                        1, this::updateStatus,
+                        0, () -> {
+
+                        }));
     }
 
     public void profileFlow() {
@@ -74,83 +149,5 @@ public class ConsumerMenu implements Menu {
                         2, this::updateStatusFlow,
                         0, () -> {
                         }));
-    }
-
-    public void updateAccountOptions() {
-        System.out.println("\n########################################");
-        System.out.println("      Atualizar informações da sua conta");
-        System.out.println("Escolha uma opção");
-        System.out.println("1. Senha | 2. Ativar/Desativar | 0. Voltar");
-    }
-
-    public void updateStatusMenu() {
-        EntityStatus status = userService.getUser(UserSession.getInstance().getEmail()).getStatus();
-        System.out.println("--------------------------------------");
-        System.out.println("O status atual da sua conta é: " + status.getLabel());
-        if (status == EntityStatus.ACTIVE) {
-            System.out.println("1. Desativar | 0. Voltar |");
-        } else if (status == EntityStatus.INACTIVE) {
-            System.out.println("1. Ativar | 0. Voltar |");
-        }
-    }
-
-    public void updateStatusFlow() {
-        navigator.navigate(this::updateStatusMenu,
-                Map.of(
-                        1, this::updateStatus,
-                        0, () -> {
-
-                        }));
-    }
-
-    public void updateStatus() {
-        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
-        UpdateForms updateForms = new UpdateForms(formStrategy);
-        UpdateResult result = updateForms.updateStatus();
-        if (result == UpdateResult.LOGOUT) {
-
-            authService.logout();
-            navigator.stop();
-        }
-    }
-
-    public void updatePassword() {
-        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
-        UpdateForms updateForms = new UpdateForms(formStrategy);
-        updateForms.passwordForm();
-    }
-
-    public void updatePersonalOptions() {
-        System.out.println("\n#########################################");
-        System.out.println("      Atualizar informações do seu perfil");
-        System.out.println("Escolha uma opção");
-        System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
-    }
-
-    public void updateName() {
-        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
-        UpdateForms updateForm = new UpdateForms(formStrategy);
-        updateForm.showForm();
-    }
-
-    public void updateBirth() {
-        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
-        UpdateForms updateForms = new UpdateForms(formStrategy);
-        updateForms.birthForm();
-    }
-
-    @Override
-    public void setPath() {
-        navigator.navigate(
-                this::showMenu, // <- Refêrencia ao método show menu
-                Map.of(// <- Cria map ja preenchido
-                        1, this::profileFlow, // <-- ação 1
-                        2, () -> { // () -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na
-                                   // "mão"
-                            authService.logout();
-                            navigator.stop();
-                        }
-
-                ));
     }
 }

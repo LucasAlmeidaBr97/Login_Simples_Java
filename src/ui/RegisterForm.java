@@ -2,47 +2,49 @@ package ui;
 
 import util.Validator;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 import model.User;
 import model.enums.EntityStatus;
 import model.enums.UserRole;
-import service.strategy.UserSaveStrategy;
+import service.strategy.UserRegistrationStrategy;
 
 public class RegisterForm {
-    private UserSaveStrategy strategy;
-    Validator validator = new Validator();
-    Scanner scan = new Scanner(System.in);
+    private final UserRegistrationStrategy strategy;
+    private final Scanner scan = new Scanner(System.in);
+    private final Validator validator = new Validator();
 
-    public RegisterForm(UserSaveStrategy strategy) {
+    public RegisterForm(UserRegistrationStrategy strategy) {
         this.strategy = strategy;
     }
 
-    public void showForm() {
-        System.out.println("####################################");
-        System.out.println("\n=== FORMULÁRIO DE CADASTRO ===");
-        System.out.println("Digite seu nome: ");
-        String name = validator.validateName(scan.nextLine());
-        System.out.println("Digite seu email: ");
+    public void show() {
+        System.out.println("\n--- CADASTRO DE NOVO USUÁRIO ---");
+        User newUser = new User();
+        System.out.print("Nome: ");
+        newUser.setName(validator.validateName(scan.nextLine()));
+
+        System.out.print("E-mail: ");
         String email = validator.validateEmail(scan.nextLine());
-        System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
-        LocalDate date = validator.validateDate(scan.nextLine());
-        System.out.println("Digite sua senha: ");
+
+        System.out.print("Data de Nascimento (dd/MM/yyyy): ");
+        newUser.setBirthDate(validator.validateDate(scan.nextLine()));
+
+        System.out.print("Defina sua senha: ");
         String password = validator.validatePassword(scan.nextLine());
 
-        User user = new User(name, email, date, UserRole.CONSUMER, EntityStatus.ACTIVE);
+        System.out.print("Confirme sua senha: ");
+        String confirm = scan.nextLine();
 
-        if (strategy.isRoleEditable()) {
-            System.out.println("Digite o nível (ADMIN, STOKIST):");
-            String role = validator.validateRole(scan.nextLine().toUpperCase());
-            user.setUserRole(UserRole.valueOf(role));
+        newUser.setUserRole(UserRole.CONSUMER);
+        newUser.setStatus(EntityStatus.ACTIVE);
+
+        if (password.equals(confirm)) {
+            strategy.register(newUser, password);
+            System.out.println("Conta criada com sucesso! Faça login para continuar.");
+        } else {
+            System.out.println("[ERRO] As senhas não conferem. Cadastro cancelado.");
         }
-        strategy.setUserData(user, password);
 
-        System.out.println("\n==============================");
-        System.out.println("Cadastro efetuado com sucesso!");
-        System.out.println("==============================");
     }
-
 }
