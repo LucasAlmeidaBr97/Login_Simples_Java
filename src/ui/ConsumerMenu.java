@@ -8,7 +8,7 @@ import auth.UserSession;
 import model.User;
 import model.enums.EntityStatus;
 import service.UserService;
-import service.strategy.FormStrategy;
+import service.strategy.UserSaveStrategy;
 import service.strategy.SelfUpdadeStrategy;
 import ui.UpdateForms.UpdateResult;
 
@@ -104,7 +104,7 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updateStatus() {
-        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
         UpdateResult result = updateForms.updateStatus();
         if (result == UpdateResult.LOGOUT) {
@@ -115,7 +115,7 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updatePassword() {
-        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
         updateForms.passwordForm();
     }
@@ -128,13 +128,13 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updateName() {
-        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForm = new UpdateForms(formStrategy);
         updateForm.showForm();
     }
 
     public void updateBirth() {
-        FormStrategy formStrategy = new SelfUpdadeStrategy();
+        UserSaveStrategy formStrategy = new SelfUpdadeStrategy();
         UpdateForms updateForms = new UpdateForms(formStrategy);
         updateForms.birthForm();
     }

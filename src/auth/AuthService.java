@@ -8,7 +8,7 @@ import model.User;
 import model.enums.EntityStatus;
 import repository.CredentialsDAO;
 import repository.UserDAO;
-import service.strategy.FormStrategy;
+import service.strategy.UserSaveStrategy;
 import service.strategy.SelfUpdadeStrategy;
 import ui.UpdateForms;
 
@@ -35,7 +35,7 @@ public class AuthService {
             scan.nextLine();
 
             if (option == 1) {
-                FormStrategy strategy = new SelfUpdadeStrategy();
+                UserSaveStrategy strategy = new SelfUpdadeStrategy();
                 UpdateForms forms = new UpdateForms(strategy);
                 forms.reactivateUser(user); // 👈 método novo
             }

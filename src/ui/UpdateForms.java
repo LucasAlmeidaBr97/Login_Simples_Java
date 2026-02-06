@@ -9,11 +9,11 @@ import model.User;
 import model.enums.EntityStatus;
 import service.CredentialsService;
 import service.UserService;
-import service.strategy.FormStrategy;
+import service.strategy.UserSaveStrategy;
 import util.Validator;
 
 public class UpdateForms {
-    private FormStrategy strategy;
+    private UserSaveStrategy strategy;
     Scanner scan = new Scanner(System.in);
     Validator validator = new Validator();
     private final AuthService authService = new AuthService();
@@ -26,7 +26,7 @@ public class UpdateForms {
         CANCEL
     }
 
-    public UpdateForms(FormStrategy strategy) {
+    public UpdateForms(UserSaveStrategy strategy) {
         this.strategy = strategy;
     }
 
