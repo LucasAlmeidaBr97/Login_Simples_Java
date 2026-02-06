@@ -1,26 +1,15 @@
 package service.strategy;
 
 import model.User;
-import service.CredentialsService;
 import service.UserService;
 
-public class SelfRegistrationStrategy implements FormStrategy {
-
+public class SelfRegistrationStrategy implements UserRegistrationStrategy {
     private final UserService userService = new UserService();
-    private final CredentialsService credentialsService = new CredentialsService();
 
     @Override
-    public void setUserData(User user, String password) {
+    public void register(User user, String password) {
         userService.registerNewUser(user, password);
+        System.out.println("Log: Enviando e-mail de boas-vindas para " + user.getEmail());
     }
 
-    @Override
-    public boolean isRoleEditable() {
-        return false;
-    }
-
-    public void user(){
-
-    }
-    
 }

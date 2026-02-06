@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import auth.UserSession;
-import service.strategy.FormStrategy;
+import service.strategy.UserSaveStrategy;
 import service.strategy.SelfRegistrationStrategy;
 
 public class MainMenu implements Menu {
@@ -43,7 +43,7 @@ public class MainMenu implements Menu {
 
     public void register() {
         System.out.println("Iniciando Cadastro... ");
-        FormStrategy strategy = new SelfRegistrationStrategy();
+        UserSaveStrategy strategy = new SelfRegistrationStrategy();
         RegisterForm form = new RegisterForm(strategy);
         form.showForm();
     }

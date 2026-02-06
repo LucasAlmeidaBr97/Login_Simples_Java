@@ -8,14 +8,14 @@ import java.util.Scanner;
 import model.User;
 import model.enums.EntityStatus;
 import model.enums.UserRole;
-import service.strategy.FormStrategy;
+import service.strategy.UserSaveStrategy;
 
 public class RegisterForm {
-    private FormStrategy strategy;
+    private UserSaveStrategy strategy;
     Validator validator = new Validator();
     Scanner scan = new Scanner(System.in);
 
-    public RegisterForm(FormStrategy strategy) {
+    public RegisterForm(UserSaveStrategy strategy) {
         this.strategy = strategy;
     }
 
