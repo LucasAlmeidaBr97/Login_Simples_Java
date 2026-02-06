@@ -10,5 +10,6 @@ public class ReactivationStrategy implements UserRegistrationStrategy {
     @Override
     public void register(User user, String password){
         user.setStatus(EntityStatus.ACTIVE);
+        userService.processReactivation(user, password);
     }
 }

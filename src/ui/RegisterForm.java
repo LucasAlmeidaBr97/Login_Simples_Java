@@ -22,24 +22,24 @@ public class RegisterForm {
 
     public RegisterForm(UserRegistrationStrategy strategy, User existingUser) {
         this.strategy = strategy;
-        this.user = existingUser; 
+        this.user = existingUser;
     }
 
     public void show() {
         System.out.println("\n--- FORMULÁRIO DE DADOS ---");
-        User newUser = new User();
-        System.out.print("Nome: ");
-        newUser.setName(validator.validateName(scan.nextLine()));
 
-        if (user.getEmail() == null) {
+        System.out.print("Nome: ");
+        this.user.setName(validator.validateName(scan.nextLine()));
+
+        if (this.user.getEmail() == null) {
             System.out.print("E-mail: ");
-            newUser.setEmail(validator.validateEmail(scan.nextLine()));        
+            this.user.setEmail(validator.validateEmail(scan.nextLine()));
         } else {
-            System.out.println("E-mail: " + user.getEmail() + " [Identificado]");
+            System.out.println("E-mail: " + this.user.getEmail() + " [Identificado]");
         }
 
         System.out.print("Data de Nascimento (dd/MM/yyyy): ");
-        newUser.setBirthDate(validator.validateDate(scan.nextLine()));
+        this.user.setBirthDate(validator.validateDate(scan.nextLine()));
 
         System.out.print("Defina sua senha: ");
         String password = validator.validatePassword(scan.nextLine());
@@ -48,10 +48,9 @@ public class RegisterForm {
         String confirm = scan.nextLine();
 
         if (password.equals(confirm)) {
-            strategy.register(newUser, password);
+            strategy.register(this.user, password);
         } else {
             System.out.println("[ERRO] As senhas não conferem. Cadastro cancelado.");
         }
-
     }
 }

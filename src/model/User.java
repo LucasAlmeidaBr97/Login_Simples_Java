@@ -74,8 +74,12 @@ public class User extends BaseEntity {
         this.birthDate = birthDate;
     }
 
-    public void setStatus(EntityStatus status){
+    public void setStatus(EntityStatus status) {
         this.status = status;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
