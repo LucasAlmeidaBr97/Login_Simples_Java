@@ -2,12 +2,12 @@ package ui;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import auth.AuthService;
 import auth.UserSession;
 import model.User;
 import model.enums.EntityStatus;
-import service.CredentialsService;
 import service.UserService;
 import service.strategy.CredentialsUpdateStrategy;
 import service.strategy.UserUpdateStrategy;
@@ -16,11 +16,10 @@ import util.Validator;
 public class UpdateForms {
     private final UserUpdateStrategy userStrategy;
     private final CredentialsUpdateStrategy credStrategy;
-    Scanner scan = new Scanner(System.in);
-    Validator validator = new Validator();
+    private final Scanner scan = new Scanner(System.in);
+    private final Validator validator = new Validator();
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
-
 
     public enum UpdateResult {
         UPDATED,
@@ -33,117 +32,71 @@ public class UpdateForms {
         this.credStrategy = credStrategy;
     }
 
-    public void showForm() {
-        System.out.println("\n####################################");
-        System.out.println("      Atualizar nome");
-        System.out.println("Digite seu nome: ");
-        String name = validator.validateName(scan.nextLine());
-        System.out.println("Digite sua senha para confirmar as atualizações: ");
+    private boolean executeSecureUpdate(String successMsg, Consumer<User> updateLogic) {
+        System.out.println("\nDigite sua senha para confirmar as atualizações: ");
         String password = validator.validatePassword(scan.nextLine());
+
         if (authService.validatePassword(UserSession.getInstance().getUserId(), password)) {
             User user = userService.getUser(UserSession.getInstance().getEmail());
-            user.setName(name);
+
+            updateLogic.accept(user);
+            userStrategy.update(user); 
+
             System.out.println("\n============================");
-            System.out.println("Nome atualizado com sucesso!");
+            System.out.println(successMsg + " com sucesso!");
             System.out.println("============================");
-            strategy.setUserData(user, null);
+            return true;
         } else {
-            System.out.println("\n-------------------------------------------------------------");
-            System.out.println(" ### Senha incorreta não foi possível atualizar seu nome. ###");
-            System.out.println("-------------------------------------------------------------");
+            System.out.println("\n[ERRO] Senha incorreta. Operação cancelada.");
+            return false;
         }
+    }
+
+    public void nameForm() {
+        System.out.println("Digite seu novo nome: ");
+        String name = validator.validateName(scan.nextLine());
+        executeSecureUpdate("Nome atualizado", user -> user.setName(name));
     }
 
     public void birthForm() {
         System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
         LocalDate date = validator.validateDate(scan.nextLine());
-        System.out.println("Digite sua senha para confirmar as atualizações: ");
-        String password = validator.validatePassword(scan.nextLine());
-        if (authService.validatePassword(UserSession.getInstance().getUserId(), password)) {
-            User user = userService.getUser(UserSession.getInstance().getEmail());
-            user.setBirthDate(date);
-            System.out.println("\n===================================");
-            System.out.println("Aniversário atualizado com sucesso!");
-            System.out.println("===================================");
-            strategy.setUserData(user, null);
-        } else {
-            System.out.println("\n--------------------------------------------------------------------");
-            System.out.println(" ### Senha incorreta não foi possível atualizar seu aniversário. ###");
-            System.out.println("--------------------------------------------------------------------");
-        }
+        executeSecureUpdate("Aniversário atualizado", user -> user.setBirthDate(date));
     }
 
     public void passwordForm() {
-        System.out.println("Digite sua senha atual: ");
-        String password = validator.validatePassword(scan.nextLine());
-        if (authService.validatePassword(UserSession.getInstance().getUserId(), password)) {
-            System.out.println("Digite sua nova senha: ");
-            String newPassword = validator.validatePassword(scan.nextLine());
-            System.out.println("Confirme sua nova senha: ");
-            String newPassword2 = validator.validatePassword(scan.nextLine());
-            if (newPassword.equals(newPassword2)) {
-                System.out.println("\n=============================");
+        System.out.println("Digite sua senha ATUAL: ");
+        String currentPassword = validator.validatePassword(scan.nextLine());
+
+        if (authService.validatePassword(UserSession.getInstance().getUserId(), currentPassword)) {
+            System.out.println("Digite sua NOVA senha: ");
+            String newPwd = validator.validatePassword(scan.nextLine());
+            System.out.println("Confirme a nova senha: ");
+            String confirmPwd = validator.validatePassword(scan.nextLine());
+
+            if (newPwd.equals(confirmPwd)) {
+                User user = userService.getUser(UserSession.getInstance().getEmail());
+                credStrategy.updatePassword(user, newPwd); 
                 System.out.println("Senha atualizada com sucesso!");
-                System.out.println("=============================");
-                strategy.setUserData(userService.getUser(UserSession.getInstance().getEmail()), newPassword);
             } else {
-                System.out.println("\n--------------------------------------------------------------------------");
-                System.out.println(" ### Não foi possível Atualizar sua senha. Senhas informadas divergem  ###");
-                System.out.println("--------------------------------------------------------------------------");
+                System.out.println("As senhas informadas divergem.");
             }
         } else {
-            System.out.println("\n-------------------------------------------------------------");
-            System.out.println(" ### Senha incorreta não foi possível dar continuidade. ###");
-            System.out.println("-------------------------------------------------------------");
+            System.out.println("Senha incorreta.");
         }
     }
 
     public UpdateResult updateStatus() {
-        System.out.println("Digite sua senha para confirmar as atualizações: ");
-        String password = validator.validatePassword(scan.nextLine());
+        User user = userService.getUser(UserSession.getInstance().getEmail());
+        EntityStatus newStatus = (user.getStatus() == EntityStatus.ACTIVE) ? EntityStatus.INACTIVE
+                : EntityStatus.ACTIVE;
+        String label = (newStatus == EntityStatus.INACTIVE) ? "desativado" : "ativado";
 
-        if (!authService.validatePassword(
-                UserSession.getInstance().getUserId(), password)) {
-            return UpdateResult.CANCEL;
-        }
+        boolean success = executeSecureUpdate("Status " + label, u -> u.setStatus(newStatus));
 
-        User user = userService.getUser(
-                UserSession.getInstance().getEmail());
-
-        if (user.getStatus() == EntityStatus.ACTIVE) {
-            user.setStatus(EntityStatus.INACTIVE);
-            strategy.setUserData(user, null);
-            System.out.println("Usuário desativado. Saindo...");
+        if (success && newStatus == EntityStatus.INACTIVE) {
             return UpdateResult.LOGOUT;
         }
-
-        user.setStatus(EntityStatus.ACTIVE);
-        strategy.setUserData(user, null);
-        return UpdateResult.UPDATED;
-    }
-
-    public void reactivateUser(User user) {
-        System.out.println("Digite seu nome:");
-        user.setName(validator.validateName(scan.nextLine()));
-
-        System.out.println("Digite sua data de nascimento (dd/MM/yyyy):");
-        user.setBirthDate(validator.validateDate(scan.nextLine()));
-
-        System.out.println("Defina uma nova senha:");
-        String newPassword = validator.validatePassword(scan.nextLine());
-
-        System.out.println("Confirme a nova senha:");
-        String confirm = validator.validatePassword(scan.nextLine());
-
-        if (!newPassword.equals(confirm)) {
-            System.out.println("Senhas não conferem.");
-            return;
-        }
-
-        user.setStatus(EntityStatus.ACTIVE);
-        strategy.setUserData(user, newPassword);
-
-        System.out.println("Conta reativada com sucesso!");
-        System.out.println("Agora você pode fazer login.");
+        return success ? UpdateResult.UPDATED : UpdateResult.CANCEL;
     }
 }

@@ -1,21 +1,17 @@
 package ui;
 
 import java.util.Map;
-import java.util.Scanner;
 
 import auth.AuthService;
 import auth.UserSession;
 import model.User;
 import model.enums.EntityStatus;
 import service.UserService;
-import service.strategy.SelfRegistrationStrategy;
 import service.strategy.SelfServiceStrategy;
-import service.strategy.SelfUpdadeStrategy;
 import ui.UpdateForms.UpdateResult;
 
 public class ConsumerMenu implements Menu {
 
-    private final Scanner scan = new Scanner(System.in);
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
     private final MenuNavigator navigator = new MenuNavigator();
@@ -91,7 +87,7 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updateName() {
-        updateForms.showForm();
+        updateForms.nameForm();
     }
 
     public void updateBirth() {
