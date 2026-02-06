@@ -9,16 +9,18 @@ import model.User;
 import model.enums.EntityStatus;
 import service.CredentialsService;
 import service.UserService;
-import service.strategy.UserSaveStrategy;
+import service.strategy.CredentialsUpdateStrategy;
+import service.strategy.UserUpdateStrategy;
 import util.Validator;
 
 public class UpdateForms {
-    private UserSaveStrategy strategy;
+    private final UserUpdateStrategy userStrategy;
+    private final CredentialsUpdateStrategy credStrategy;
     Scanner scan = new Scanner(System.in);
     Validator validator = new Validator();
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
-    private final MenuNavigator navigator = new MenuNavigator();
+
 
     public enum UpdateResult {
         UPDATED,
@@ -26,8 +28,9 @@ public class UpdateForms {
         CANCEL
     }
 
-    public UpdateForms(UserSaveStrategy strategy) {
-        this.strategy = strategy;
+    public UpdateForms(UserUpdateStrategy userStrategy, CredentialsUpdateStrategy credStrategy) {
+        this.userStrategy = userStrategy;
+        this.credStrategy = credStrategy;
     }
 
     public void showForm() {
