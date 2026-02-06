@@ -82,10 +82,6 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> lucas
     @Override
     public String toString() {
         return "Usuário [ Id = " + id + ", Nome = " + name + ", E-mail = " + email + ", Data de Nascimento = "

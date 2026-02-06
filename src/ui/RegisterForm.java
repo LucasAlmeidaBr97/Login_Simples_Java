@@ -27,15 +27,6 @@ public class RegisterForm {
 
     public void show() {
         System.out.println("\n--- FORMULÁRIO DE DADOS ---");
-<<<<<<< HEAD
-        
-        System.out.print("Nome: ");
-        this.user.setName(validator.validateName(scan.nextLine()));
-
-        if (this.user.getEmail() == null) {
-            System.out.print("E-mail: ");
-            this.user.setEmail(validator.validateEmail(scan.nextLine()));        
-=======
 
         System.out.print("Nome: ");
         this.user.setName(validator.validateName(scan.nextLine()));
@@ -43,7 +34,6 @@ public class RegisterForm {
         if (this.user.getEmail() == null) {
             System.out.print("E-mail: ");
             this.user.setEmail(validator.validateEmail(scan.nextLine()));
->>>>>>> lucas
         } else {
             System.out.println("E-mail: " + this.user.getEmail() + " [Identificado]");
         }
