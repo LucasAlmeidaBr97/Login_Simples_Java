@@ -42,7 +42,7 @@ public class UserService {
     public void processReactivation(User user, String password) {
         userDAO.updateUser(user);
         credentialsService.registerNewCredentials(user, password);
-        System.out.println("Conta reativada com sucesso para: " + user.getEmail());
+        System.out.println("Conta de " + user.getEmail() + " reativada com sucesso!");
     }
 
 }

@@ -22,11 +22,12 @@ public class RegisterForm {
 
     public RegisterForm(UserRegistrationStrategy strategy, User existingUser) {
         this.strategy = strategy;
-        this.user = existingUser; 
+        this.user = existingUser;
     }
 
     public void show() {
         System.out.println("\n--- FORMULÁRIO DE DADOS ---");
+<<<<<<< HEAD
         
         System.out.print("Nome: ");
         this.user.setName(validator.validateName(scan.nextLine()));
@@ -34,8 +35,17 @@ public class RegisterForm {
         if (this.user.getEmail() == null) {
             System.out.print("E-mail: ");
             this.user.setEmail(validator.validateEmail(scan.nextLine()));        
+=======
+
+        System.out.print("Nome: ");
+        this.user.setName(validator.validateName(scan.nextLine()));
+
+        if (this.user.getEmail() == null) {
+            System.out.print("E-mail: ");
+            this.user.setEmail(validator.validateEmail(scan.nextLine()));
+>>>>>>> lucas
         } else {
-            System.out.println("E-mail: " + user.getEmail() + " [Identificado]");
+            System.out.println("E-mail: " + this.user.getEmail() + " [Identificado]");
         }
 
         System.out.print("Data de Nascimento (dd/MM/yyyy): ");
@@ -52,6 +62,5 @@ public class RegisterForm {
         } else {
             System.out.println("[ERRO] As senhas não conferem. Cadastro cancelado.");
         }
-
     }
 }
