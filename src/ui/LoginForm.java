@@ -4,7 +4,10 @@ import java.util.Scanner;
 
 import auth.AuthService;
 import auth.UserSession;
+import model.User;
 import service.UserService;
+import service.strategy.ReactivationStrategy;
+import service.strategy.UserRegistrationStrategy;
 import util.Validator;
 
 public class LoginForm {
@@ -28,7 +31,44 @@ public class LoginForm {
         String password = validator.validatePassword(scan.nextLine());
 
         AuthService.LoginStatus status = authService.authenticate(email, password);
-        
+
     }
 
+    private void handleLoginStatus(AuthService.LoginStatus status, String email) {
+        switch (status) {
+            case SUCCESS:
+                System.out.println("\n[SUCESSO] Bem-vindo ao sistema!");
+                break;
+
+            case INACTIVE:
+                handleInactivity(email);
+                break;
+
+            case LOCKED:
+                System.out.println("\n[ERRO] Esta conta está BLOQUEADA. Contate um administrador.");
+                break;
+
+            case INVALID_PASSWORD:
+                System.out.println("\n[ERRO] Senha incorreta.");
+                break;
+
+            case USER_NOT_FOUND:
+                System.out.println("\n[ERRO] E-mail não cadastrado.");
+        }
+    }
+
+    private void handleInactivity(String email) {
+        System.out.println("\n[AVISO] Sua conta está DESATIVADA.");
+        System.out.println("Deseja reativá-la agora? (1. Sim | 0. Voltar)");
+
+        String op = scan.nextLine();
+        if (op.equals("1")) {
+            User user = userService.getUser(email);
+
+            UserRegistrationStrategy strategy = new ReactivationStrategy();
+            RegisterForm registerForm = new RegisterForm(strategy);
+
+            registerForm.show();
+        }
+    }
 }

@@ -37,7 +37,7 @@ public class MainMenu implements Menu {
     public void loginFlow() {
         System.out.println("Iniciando Login... ");
         LoginForm loginForm = new LoginForm();
-        loginForm.showForm();
+        loginForm.show();
 
         if (UserSession.getInstance().isLogged()) {
             navigator.stop();
