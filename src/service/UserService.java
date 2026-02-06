@@ -23,20 +23,26 @@ public class UserService {
         return userDAO.findByEmail(email) != null;
     }
 
-    public void listUser(){
+    public void listUser() {
         Map<Long, User> allUsers = userDAO.getUserMap();
-        for(User user : allUsers.values()) {
+        for (User user : allUsers.values()) {
             System.out.println(user);
         }
     }
 
-    public User getUser(String email){
+    public User getUser(String email) {
         User user = userDAO.findByEmail(email);
         return user;
     }
 
-    public void updateUser(User user){
-        userDAO.updateUser(user);        
+    public void updateUser(User user) {
+        userDAO.updateUser(user);
+    }
+
+    public void processReactivation(User user, String password) {
+        userDAO.updateUser(user);
+        credentialsService.registerNewCredentials(user, password);
+        System.out.println("Conta reativada com sucesso para: " + user.getEmail());
     }
 
 }

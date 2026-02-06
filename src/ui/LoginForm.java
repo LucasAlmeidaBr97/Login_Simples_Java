@@ -3,7 +3,6 @@ package ui;
 import java.util.Scanner;
 
 import auth.AuthService;
-import auth.UserSession;
 import model.User;
 import service.UserService;
 import service.strategy.ReactivationStrategy;
@@ -31,6 +30,7 @@ public class LoginForm {
         String password = validator.validatePassword(scan.nextLine());
 
         AuthService.LoginStatus status = authService.authenticate(email, password);
+        handleLoginStatus(status, email);
 
     }
 
@@ -63,10 +63,10 @@ public class LoginForm {
 
         String op = scan.nextLine();
         if (op.equals("1")) {
-            User user = userService.getUser(email);
+            User existingUser = userService.getUser(email);
 
             UserRegistrationStrategy strategy = new ReactivationStrategy();
-            RegisterForm registerForm = new RegisterForm(strategy);
+            RegisterForm registerForm = new RegisterForm(strategy, existingUser);
 
             registerForm.show();
         }
