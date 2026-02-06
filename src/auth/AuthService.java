@@ -37,7 +37,7 @@ public class AuthService {
             if (option == 1) {
                 UserSaveStrategy strategy = new SelfUpdadeStrategy();
                 UpdateForms forms = new UpdateForms(strategy);
-                forms.reactivateUser(user); // 👈 método novo
+                forms.reactivateUser(user); 
             }
             return false;
         }
