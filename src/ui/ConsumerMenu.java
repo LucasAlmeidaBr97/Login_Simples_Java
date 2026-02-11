@@ -74,9 +74,9 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updateStatus() {
-        
         var result = updateForms.updateStatus();
         if (result == UpdateResult.LOGOUT) {
+            System.out.println("Desconectando ... ");
             authService.logout();
             navigator.stop();
         }
@@ -100,8 +100,8 @@ public class ConsumerMenu implements Menu {
                 this::showMenu, // <- Refêrencia ao método show menu
                 Map.of(// <- Cria map ja preenchido
                         1, this::profileFlow, // <-- ação 1
-                        2, () -> { // () -> { ... } () = nenhum parametro, {} corpo do bloco run() Runnable na
-                                   // "mão"
+                        2, () -> {
+                            System.out.println("Desconectando ... ");
                             authService.logout();
                             navigator.stop();
                         }

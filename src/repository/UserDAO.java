@@ -21,7 +21,7 @@ public class UserDAO {
     }
 
     public User findByEmail(String email) {
-        return usersByEmail.get(email);
+        return usersByEmail.get(email.toLowerCase());
     }
 
     public Long generateNextUserId() {
@@ -38,12 +38,12 @@ public class UserDAO {
     public void saveUser(User user) {
         user.setId(generateNextUserId());
         users.put(user.getId(), user);
-        usersByEmail.put(user.getEmail(), user);
+        usersByEmail.put(user.getEmail().toLowerCase(), user);
     }
 
     public void updateUser(User user){
         users.put(user.getId(), user);
-        usersByEmail.put(user.getEmail(), user);
+        usersByEmail.put(user.getEmail().toLowerCase(), user);
     }
 
 }
