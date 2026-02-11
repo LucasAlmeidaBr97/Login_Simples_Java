@@ -11,7 +11,7 @@ public class UserService {
     private static final CredentialsService credentialsService = new CredentialsService();
 
     public void registerNewUser(User newUser, String password) {
-        if (existUser(newUser.getEmail())) {
+        if (existUser(newUser.getEmail().toLowerCase())) {
             System.out.println("Email já cadastrado");
             return;
         }
@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public boolean existUser(String email) {
-        return userDAO.findByEmail(email) != null;
+        return userDAO.findByEmail(email.toLowerCase()) != null;
     }
 
     public void listUser() {
@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public User getUser(String email) {
-        User user = userDAO.findByEmail(email);
+        User user = userDAO.findByEmail(email.toLowerCase());
         return user;
     }
 

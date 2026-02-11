@@ -17,7 +17,7 @@ public class AuthService {
     }
 
     public LoginStatus authenticate(String email, String password) {
-        User user = userDAO.findByEmail(email);
+        User user = userDAO.findByEmail(email.toLowerCase());
 
         if (user == null) {
             return LoginStatus.USER_NOT_FOUND;
@@ -32,7 +32,7 @@ public class AuthService {
         }
 
         if (validatePassword(user.getId(), password)) {
-            UserSession.getInstance().startSession(user.getId(), user.getEmail(), user.getUserRole());
+            UserSession.getInstance().startSession(user.getId(), user.getEmail().toLowerCase(), user.getUserRole());
             return LoginStatus.SUCCESS;
         }
 

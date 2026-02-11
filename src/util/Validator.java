@@ -54,7 +54,7 @@ public class Validator {
     public static String validateEmail(String email) {
         while (true) {
             if (isValidEmail(email)) {
-                return email;
+                return email.toLowerCase();
             } else {
                 System.out.println("Erro: Formato de e-mail inválido (ex: usuario@email.com).");
                 System.out.print("Tente novamente: ");
