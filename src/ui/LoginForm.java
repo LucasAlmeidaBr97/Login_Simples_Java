@@ -39,7 +39,6 @@ public class LoginForm {
             case SUCCESS:
                 System.out.println("\n[SUCESSO] Bem-vindo ao sistema!");
                 break;
-
             case INACTIVE:
                 handleInactivity(email);
                 break;
