@@ -38,8 +38,8 @@ Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os pa
 2. **Execute o projeto**
 
     **`Windows`**:
-     Com a JDK 11 ou superior instalada, na raiz do projeto \Login_Simples_Java procure os arquivos
-    Login_Simples_Java.bat(`Windows`). Clique nele e pronto.
+    Com a JDK 11 ou superior instalada, na raiz do projeto \Login_Simples_Java procure os arquivos
+    Login_Simples_Java.bat. Clique nele e pronto. Você pode criar um novo usuário que será um consumidor final. ou usar um usuário existente.
 
     **Ou** Ainda na raiz do projeto abra o terminal e execute o comando:
 
@@ -60,6 +60,13 @@ Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os pa
 
     **Execute**:
     Localize a classe principal na pasta `src` (geralmente `App.java`) e execute-a. O sistema interativo será iniciado no console da sua IDE.
+
+📌 **Nota: Usuários Cadastrados**
+
+    E-mail: joao@email.com        Senha: J14613oao.O        #CONSUMER          
+    E-mail: roberto@email.com     Senha: Ro2421berto.       #ADMIN 
+    E-mail: lucas@email.com       Senha: Luc3132.As         #STOKIST
+  
 
 ### 📂 Estrutura de Pastas
 ```text

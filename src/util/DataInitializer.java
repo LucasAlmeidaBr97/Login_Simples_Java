@@ -33,12 +33,12 @@ public class DataInitializer {
 
     private static void initCredentials(CredentialsDAO credentialsDAO, UserDAO userDAO) {
 
-        credentialsDAO.addCredential(userDAO.findByEmail("joao@email.com"), "Joao.2000");
-        credentialsDAO.addCredential(userDAO.findByEmail("joao@email.com"), "Joao.2001");
+        credentialsDAO.addCredential(userDAO.findByEmail("joao@email.com"), "Jo1354ao.A");
+        credentialsDAO.addCredential(userDAO.findByEmail("joao@email.com"), "J14613oao.O");
 
-        credentialsDAO.addCredential(userDAO.findByEmail("carlos@email.com"), "Carlos.2000");
-        credentialsDAO.addCredential(userDAO.findByEmail("roberto@email.com"), "Roberto.2000");
-        credentialsDAO.addCredential(userDAO.findByEmail("lucas@email.com"), "Lucas.2000");
+        credentialsDAO.addCredential(userDAO.findByEmail("carlos@email.com"), "3135Carlos.");
+        credentialsDAO.addCredential(userDAO.findByEmail("roberto@email.com"), "Ro2421berto.");
+        credentialsDAO.addCredential(userDAO.findByEmail("lucas@email.com"), "Luc3132.As");
     }
 
 }
