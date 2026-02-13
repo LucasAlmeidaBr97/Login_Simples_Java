@@ -66,7 +66,6 @@ Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os pa
     E-mail: joao@email.com        Senha: J14613oao.O        #CONSUMER          
     E-mail: roberto@email.com     Senha: Ro2421berto.       #ADMIN 
     E-mail: lucas@email.com       Senha: Luc3132.As         #STOKIST
-  
 
 ### 📂 Estrutura de Pastas
 ```text
