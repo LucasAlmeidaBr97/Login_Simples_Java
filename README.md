@@ -1,6 +1,72 @@
 # Login_Java
 
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
+
 O Login_Simples_Java é um sistema feito puramente em Java, projetado para gerenciar autenticação e cadastro de usuários via terminal. Na versão atual, o foco funcional está no perfil "Consumer", permitindo que usuários realizem autoatendimento, como visualização de perfil e atualização de dados cadastrais, através de menus interativos no console.
+
+## Começando
+
+Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os passos abaixo.
+
+### 📋 Pré-requisitos
+
+*   **Java JDK 11** ou superior instalado.
+*   **Git** instalado (Opcional).
+*   Uma IDE Java de sua preferência (VS Code, IntelliJ, Eclipse, NetBeans)(Opcional).
+
+### 🔧 Instalação e Execução
+
+1.  **Baixe os arquivos**:
+
+    Acesse o repositório no GitHub: https://github.com/LucasAlmeidaBr97/Login_Simples_Java
+
+    Clique no botão verde `Code`.
+    Clique em `Download ZIP`.
+    Extraia o arquivo no seu computador.
+
+    **Ou Clone o repositório**
+
+    Abra o terminal e execute o comando:
+    ```bash
+    git clone https://github.com/seu-usuario/Login_Simples_Java.git
+    ```
+2. **Execute o projeto**
+
+    **`Windows`**:
+    Na raiz do projeto \Login_Simples_Java procure os arquivos
+    Login_Simples_Java.bat(`Windows`). Clique nele e pronto.
+
+    **Ou** Ainda na raiz do projeto abra o terminal e execute o comando:
+
+        cd Login_Simples_Java
+        java -jar Login_Simples_Java.jar
+        
+
+    **`Linux ou Mac`**:
+        Abra o terminal e execute o comando:
+
+        cd Login_Simples_Java
+        java -jar Login_Simples_Java.jar
+
+    **`IDE`**
+
+    **Importe o projeto**:
+    Abra sua IDE e selecione a opção para abrir um projeto existente ou pasta, apontando para o diretório `Login_Simples_Java` que foi criado.
+
+    **Execute**:
+    Localize a classe principal na pasta `src` (geralmente `App.java`) e execute-a. O sistema interativo será iniciado no console da sua IDE.
+
+### 📂 Estrutura de Pastas
+```text
+src/
+├── auth/           # Lógica de autenticação e estratégias
+├── repository/     # FactoryDAO e persistência em memória
+├── service/        # Regras de negócio
+├── ui/             # Interface de usuário (Console)
+├── util/           # Validadores e utilitários
+└── App.java        # Ponto de entrada
+```
 
 ## Descrição Técnica
 
