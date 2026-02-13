@@ -5,17 +5,21 @@
 
 O Login_Simples_Java é um sistema feito puramente em Java, projetado para gerenciar autenticação e cadastro de usuários via terminal. Na versão atual, o foco funcional está no perfil "Consumer", permitindo que usuários realizem autoatendimento, como visualização de perfil e atualização de dados cadastrais, através de menus interativos no console.
 
+Consulte a **[Descrição Técnica](#descrição-técnica)** para saber mais sobre especificações técnicas.
+
 ## Começando
 
 Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os passos abaixo.
 
 ### 📋 Pré-requisitos
 
-*   **Java JDK 11** ou superior instalado.
+*   **Java JDK 11** ou superior instalado (Obrigatório). Para instalar o Java JDK 11 ou superior (como 17 ou 21), baixe o instalador adequado ao seu sistema operacional no site da Oracle: https://www.oracle.com/java/technologies/downloads/  Execute o instalador, siga as instruções na tela e aguarde a conclusão.
 *   **Git** instalado (Opcional).
 *   Uma IDE Java de sua preferência (VS Code, IntelliJ, Eclipse, NetBeans)(Opcional).
 
 ### 🔧 Instalação e Execução
+
+**📌 Nota Importante:** Certifique-se de ter o **JDK 11+** instalado. Sem ele, os comandos de execução abaixo não funcionarão.
 
 1.  **Baixe os arquivos**:
 
@@ -29,12 +33,12 @@ Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os pa
 
     Abra o terminal e execute o comando:
     ```bash
-    git clone https://github.com/seu-usuario/Login_Simples_Java.git
+    git clone https://github.com/LucasAlmeidaBr97/Login_Simples_Java.git
     ```
 2. **Execute o projeto**
 
     **`Windows`**:
-    Na raiz do projeto \Login_Simples_Java procure os arquivos
+     Com a JDK 11 ou superior instalada, na raiz do projeto \Login_Simples_Java procure os arquivos
     Login_Simples_Java.bat(`Windows`). Clique nele e pronto.
 
     **Ou** Ainda na raiz do projeto abra o terminal e execute o comando:
@@ -52,7 +56,7 @@ Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os pa
     **`IDE`**
 
     **Importe o projeto**:
-    Abra sua IDE e selecione a opção para abrir um projeto existente ou pasta, apontando para o diretório `Login_Simples_Java` que foi criado.
+     Abra sua IDE e selecione a opção para abrir um projeto existente ou pasta, apontando para o diretório `Login_Simples_Java` que foi criado.
 
     **Execute**:
     Localize a classe principal na pasta `src` (geralmente `App.java`) e execute-a. O sistema interativo será iniciado no console da sua IDE.
@@ -67,7 +71,7 @@ src/
 ├── util/           # Validadores e utilitários
 └── App.java        # Ponto de entrada
 ```
-
+[⬆ Voltar ao inicio](#login_java) 
 ## Descrição Técnica
 
 ### 🏛️ Arquitetura e Organização
@@ -100,3 +104,5 @@ O projeto encontra-se em estágio ativo de evolução. A estrutura atual foi des
 
 * **Novos Perfis**: Embora o foco atual seja o consumidor final, a estrutura para **ADMIN** e **STOKIST** (Estoquista) já existe (`AdminMenu`, `UserRole`). As próximas etapas envolvem a implementação das regras de negócio específicas para esses perfis, como gerenciamento de usuários e controle de estoque.
 * **AtualPersistência de Dados**: Atualmente, os dados são voláteis (existem apenas enquanto o programa roda). A arquitetura baseada em DAOs foi escolhida propositalmente para facilitar a transição futura para um Banco de **Dados SQL**, onde a implementação em memória será substituída por conexões JDBC ou JPA/Hibernate sem quebrar o restante da aplicação.
+
+[⬆ Voltar ao inicio](#login_java) 
