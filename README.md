@@ -3,7 +3,7 @@
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
 
-O Login_Simples_Java é um sistema feito puramente em Java, projetado para gerenciar autenticação e cadastro de usuários via terminal. Na versão atual, o foco funcional está no perfil "Consumer", permitindo que usuários realizem autoatendimento, como visualização de perfil e atualização de dados cadastrais, através de menus interativos no console.
+O Login_Simples_Java é um sistema feito puramente em Java, projetado para gerenciar autenticação e cadastro de usuários via terminal. Na versão atual, o foco funcional está no perfil "Consumer", permitindo que usuários realizem autoatendimento, como visualização de perfil e atualização de dados cadastrais, através de menus interativos no console. Clique para **[`aqui`](#começando)** para começar.
 
 ## 🎯 Objetivo do Projeto
 
@@ -27,6 +27,8 @@ Este projeto foi desenvolvido com o objetivo de praticar:
 Consulte a **[Descrição Técnica](#descrição-técnica)** para saber mais sobre especificações técnicas.
 
 ## Começando
+
+Comnsulte a **[Demonstração do Sistema](#-demonstração-do-sistema)** para ver o sistema em funcionamento (**`Videos`**).
 
 Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os passos abaixo.
 
@@ -105,6 +107,9 @@ https://github.com/user-attachments/assets/ef40f3a9-114e-44b0-a204-a8ea321f1fe1
 ### 🔐 Ativação e Desativação de Conta
 
 https://github.com/user-attachments/assets/e6a3fbb6-f193-4184-b5d4-413cfd63af08
+
+**📌 Nota Importante:** **`video`** completo do sistema em funcionamento na pasta aassets\fluxo_Consumer na raiz do projeto.
+
 
 ### 📂 Estrutura de Pastas
 ```text
