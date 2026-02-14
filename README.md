@@ -5,6 +5,25 @@
 
 O Login_Simples_Java é um sistema feito puramente em Java, projetado para gerenciar autenticação e cadastro de usuários via terminal. Na versão atual, o foco funcional está no perfil "Consumer", permitindo que usuários realizem autoatendimento, como visualização de perfil e atualização de dados cadastrais, através de menus interativos no console.
 
+## 🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido com o objetivo de praticar:
+- Arquitetura em camadas
+- Padrões de projeto
+- Boas práticas em Java
+- Organização de código escalável
+
+## ✨ Funcionalidades
+
+- Cadastro de usuário (Consumer)
+- Login com validação
+- Atualização de dados cadastrais
+- Alteração de senha
+- Ativação e desativação de conta
+- Arquitetura preparada para múltiplos perfis (ADMIN, STOKIST)
+
+**📌 Nota Importante:** O sistema está em evolução e contará com mais funcionalidades. 
+
 Consulte a **[Descrição Técnica](#descrição-técnica)** para saber mais sobre especificações técnicas.
 
 ## Começando
@@ -63,9 +82,29 @@ Para obter uma cópia do projeto e executá-lo em sua máquina local, siga os pa
 
 📌 **Nota: Usuários Cadastrados**
 
-    E-mail: joao@email.com        Senha: J14613oao.O        #CONSUMER          
-    E-mail: roberto@email.com     Senha: Ro2421berto.       #ADMIN 
-    E-mail: lucas@email.com       Senha: Luc3132.As         #STOKIST
+| Perfil   | Email              | Senha        |
+|----------|-------------------|-------------|
+| CONSUMER | joao@email.com     | J14613oao.O |
+| ADMIN    | roberto@email.com  | Ro2421berto.|
+| STOKIST  | lucas@email.com    | Luc3132.As  |
+
+## 🎥 Demonstração do Sistema
+
+Os videos à seguir mostram um pouco do projeto em funcionamento:
+
+### 🧾 Cadastro e Atualização de Senha (Consumer)
+
+
+https://github.com/user-attachments/assets/868afd54-585b-4222-9c80-5a70af802e74
+
+
+### 👤 Login e Atualização de Perfil
+
+https://github.com/user-attachments/assets/ef40f3a9-114e-44b0-a204-a8ea321f1fe1
+
+### 🔐 Ativação e Desativação de Conta
+
+https://github.com/user-attachments/assets/e6a3fbb6-f193-4184-b5d4-413cfd63af08
 
 ### 📂 Estrutura de Pastas
 ```text
@@ -77,7 +116,7 @@ src/
 ├── util/           # Validadores e utilitários
 └── App.java        # Ponto de entrada
 ```
-[⬆ Voltar ao inicio](#login_java) 
+[⬆ Voltar ao início](#login_java) 
 ## Descrição Técnica
 
 ### 🏛️ Arquitetura e Organização
@@ -111,4 +150,4 @@ O projeto encontra-se em estágio ativo de evolução. A estrutura atual foi des
 * **Novos Perfis**: Embora o foco atual seja o consumidor final, a estrutura para **ADMIN** e **STOKIST** (Estoquista) já existe (`AdminMenu`, `UserRole`). As próximas etapas envolvem a implementação das regras de negócio específicas para esses perfis, como gerenciamento de usuários e controle de estoque.
 * **AtualPersistência de Dados**: Atualmente, os dados são voláteis (existem apenas enquanto o programa roda). A arquitetura baseada em DAOs foi escolhida propositalmente para facilitar a transição futura para um Banco de **Dados SQL**, onde a implementação em memória será substituída por conexões JDBC ou JPA/Hibernate sem quebrar o restante da aplicação.
 
-[⬆ Voltar ao inicio](#login_java) 
+[⬆ Voltar ao início](#login_java) 
