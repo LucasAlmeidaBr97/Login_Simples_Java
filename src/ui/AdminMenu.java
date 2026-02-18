@@ -1,12 +1,15 @@
 package ui;
 
+import model.User;
+
 public class AdminMenu implements Menu {
+    private final SearchForms searchForms = new SearchForms();
 
     @Override
     public void showMenu() {
         System.out.println("\n####################################");
         System.out.println("            Painel do ADMIN");
-        System.out.println("1. Buscar Usuário");      
+        System.out.println("1. Buscar Usuário");
         System.out.println("3. Cadastrar Nono Usuário");
         System.out.println("5. Resetar Senha de Usuário");
         System.out.println("0. Logout");
@@ -36,15 +39,21 @@ public class AdminMenu implements Menu {
         System.out.println("            Buscar por Usuários Externos");
         System.out.println("1. Buscar por Nome");
         System.out.println("2. Buscar por E-mail");
-        System.out.println("3. Buscar por Status"); 
+        System.out.println("3. Buscar por Status");
         System.out.println("0. Voltar.");
     }
 
     public void findInternalByName() {
-            
+        User user = searchForms.searchByNameForm();
+        if (user == null) {
+            System.out.println("Usuário não encontrado.");
+        } else {
+            System.out.println("Usuário encontrado:");
+            System.out.println(user);
+        }
     }
 
-
+    
 
     @Override
     public void setPath() {
