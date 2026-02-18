@@ -45,4 +45,14 @@ public class UserService {
         System.out.println("Conta de " + user.getEmail() + " reativada com sucesso!");
     }
 
+    public User getUserByName(String name) {
+        Map<Long, User> allUsers = userDAO.getUserMap();
+        for (User user : allUsers.values()) { 
+            if (user.getName().equalsIgnoreCase(name)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 }
