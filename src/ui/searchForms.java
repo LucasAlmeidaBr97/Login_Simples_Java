@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.List;
 import java.util.Scanner;
 
 import model.User;
@@ -12,10 +13,9 @@ public class SearchForms {
     private final Scanner scan = new Scanner(System.in);
     private final UserService userService = new UserService();
 
-    public User searchByNameForm() {
+    public List<User> searchByNameForm() {
         System.out.println("Digite o nome do usuário a ser buscado: ");
         String name = validator.validateName(scan.nextLine());
-
         return userService.getUserByName(name);
     }
 
