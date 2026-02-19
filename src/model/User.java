@@ -84,9 +84,7 @@ public class User extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Usuário [ Id = " + id + ", Nome = " + name + ", E-mail = " + email + ", Data de Nascimento = "
-                + birthDate + ", Nivel = "
-                + userRole + ", Status = " + status + "]";
+        return "Usuário [ Id: " + id + " | Nome: " + name + " | E-mail: " + email + " | Nível: " + userRole + " | Status: " + status + "]";
     }
 
 }

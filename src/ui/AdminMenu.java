@@ -1,17 +1,25 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import auth.AuthService;
 import model.User;
 
 public class AdminMenu implements Menu {
     private final SearchForms searchForms = new SearchForms();
+    private final List<User> userFinder = new ArrayList<>();
+    private final MenuNavigator navigator = new MenuNavigator();
+    private final AuthService authService = new AuthService();
 
     @Override
     public void showMenu() {
         System.out.println("\n####################################");
         System.out.println("            Painel do ADMIN");
         System.out.println("1. Buscar Usuário");
-        System.out.println("3. Cadastrar Nono Usuário");
-        System.out.println("5. Resetar Senha de Usuário");
+        System.out.println("2. Cadastrar Nono Usuário");
+        System.out.println("3. Resetar Senha de Usuário");
         System.out.println("0. Logout");
         System.out.print("Escolha: ");
     }
@@ -44,21 +52,45 @@ public class AdminMenu implements Menu {
     }
 
     public void findInternalByName() {
-        User user = searchForms.searchByNameForm();
-        if (user == null) {
-            System.out.println("Usuário não encontrado.");
+        List<User> users = searchForms.searchByNameForm();
+        if (users.isEmpty()) {
+            System.out.println("Nenhum usuário encontrado.");
         } else {
-            System.out.println("Usuário encontrado:");
-            System.out.println(user);
+            userFinder.clear();
+            userFinder.addAll(users);
+            showUsers();
         }
     }
 
-    
+    public void showUsers() {
+        System.out.println("\n####################################");
+        System.out.println("            Usuários encontrados");
+        for (User user : userFinder) {
+            System.out.println("--------------------------------------");
+            System.out.println(user);
+            System.out.println("--------------------------------------");
+        }
+    }
 
     @Override
     public void setPath() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setPath'");
+        navigator.navigate(
+                this::showMenu,
+                Map.of(
+                        1, this::findMenuFlow,
+                        0, () -> {
+                            System.out.println("Desconectando ... ");
+                            authService.logout();
+                            navigator.stop();
+                        }));
+    }
+
+    public void findMenuFlow() {
+        navigator.navigate(
+                this::findInternalUser,
+                Map.of(1, this::findInternalByName,
+                        0, () -> {
+                        }));
     }
 
 }

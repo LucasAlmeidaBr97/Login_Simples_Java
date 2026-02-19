@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import model.User;
@@ -45,14 +47,15 @@ public class UserService {
         System.out.println("Conta de " + user.getEmail() + " reativada com sucesso!");
     }
 
-    public User getUserByName(String name) {
+    public List<User> getUserByName(String name) {
+        List<User> results = new ArrayList<>();
         Map<Long, User> allUsers = userDAO.getUserMap();
         for (User user : allUsers.values()) { 
-            if (user.getName().equalsIgnoreCase(name)) {
-                return user;
+            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
+                results.add(user);
             }
         }
-        return null;
+        return results;
     }
 
 }
