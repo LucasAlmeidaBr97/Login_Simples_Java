@@ -19,4 +19,10 @@ public class SearchForms {
         return userService.getUserByName(name);
     }
 
+    public List<User> searchByEmailForm() {
+        System.out.println("Digite o e-mail do usuário a ser buscado: ");
+        String email = validator.validateEmail(scan.nextLine());
+        return userService.getUsersByEmail(email);
+    }
+
 }

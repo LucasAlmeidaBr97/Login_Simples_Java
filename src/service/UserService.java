@@ -58,4 +58,16 @@ public class UserService {
         return results;
     }
 
+    public List<User> getUsersByEmail(String email) {
+        List<User> results = new ArrayList<>();
+        Map<Long, User> allUsers = userDAO.getUserMap();
+        for(User user : allUsers.values()) {
+            if(user.getEmail().toLowerCase().contains(email.toLowerCase())) {
+                results.add(user);
+            }
+        }
+        return results;
+    }
+        
+
 }
