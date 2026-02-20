@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.User;
+import model.enums.EntityStatus;
 import service.UserService;
 import util.Validator;
 
@@ -25,4 +26,10 @@ public class SearchForms {
         return userService.getUsersByEmail(email);
     }
 
+    public List<User> searchByStatusForm(EntityStatus status) {
+        if (status == null) {
+            return List.of();
+        }
+        return userService.getUsersByStatus(status);
+    }
 }

@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import auth.AuthService;
 import model.User;
+import model.enums.EntityStatus;
 
 public class AdminMenu implements Menu {
     private final SearchForms searchForms = new SearchForms();
@@ -52,6 +53,12 @@ public class AdminMenu implements Menu {
         System.out.println("0. Voltar.");
     }
 
+    public void findByStatusMenu() {
+        System.out.println("--------------------------------------");
+        System.out.println("Escolha uma opção: ");
+        System.out.println("1. Ativo | 2. Inativo | 3. Bloqueado | 0. Voltar");
+    }
+
     private void findInternal(Supplier<List<User>> searchStrategy) {
         List<User> users = searchStrategy.get();
 
@@ -93,6 +100,18 @@ public class AdminMenu implements Menu {
                 Map.of(
                         1, () -> findInternal(searchForms::searchByNameForm),
                         2, () -> findInternal(searchForms::searchByEmailForm),
+                        3, this::findByStatusFlow,
+                        0, () -> {
+                        }));
+    }
+
+    public void findByStatusFlow() {
+        navigator.navigate(
+                this::findByStatusMenu,
+                Map.of(
+                        1, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.ACTIVE)),
+                        2, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.INACTIVE)),
+                        3, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.LOCKED)),
                         0, () -> {
                         }));
     }
