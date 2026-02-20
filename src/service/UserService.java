@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.text.html.parser.Entity;
+
 import model.User;
+import model.enums.EntityStatus;
 import repository.UserDAO;
 
 public class UserService {
@@ -63,6 +66,17 @@ public class UserService {
         Map<Long, User> allUsers = userDAO.getUserMap();
         for(User user : allUsers.values()) {
             if(user.getEmail().toLowerCase().contains(email.toLowerCase())) {
+                results.add(user);
+            }
+        }
+        return results;
+    }
+
+    public List<User> getUsersByStatus(EntityStatus status) {
+        List<User> results = new ArrayList<>();
+        Map<Long, User> allUsers = userDAO.getUserMap();
+        for(User user : allUsers.values()) {
+            if(user.getStatus() == status) {
                 results.add(user);
             }
         }
