@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import auth.AuthService;
 import model.User;
@@ -51,8 +52,9 @@ public class AdminMenu implements Menu {
         System.out.println("0. Voltar.");
     }
 
-    public void findInternalByName() {
-        List<User> users = searchForms.searchByNameForm();
+    private void findInternal(Supplier<List<User>> searchStrategy) {
+        List<User> users = searchStrategy.get();
+
         if (users.isEmpty()) {
             System.out.println("Nenhum usuário encontrado.");
         } else {
@@ -88,7 +90,9 @@ public class AdminMenu implements Menu {
     public void findMenuFlow() {
         navigator.navigate(
                 this::findInternalUser,
-                Map.of(1, this::findInternalByName,
+                Map.of(
+                        1, () -> findInternal(searchForms::searchByNameForm),
+                        2, () -> findInternal(searchForms::searchByEmailForm),
                         0, () -> {
                         }));
     }

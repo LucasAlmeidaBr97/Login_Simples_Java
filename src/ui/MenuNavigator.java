@@ -13,7 +13,7 @@ public class MenuNavigator {
         running = false;
     }
 
-    public void navigate(Runnable showMenu, Map<Integer, Runnable> actions) { // < - map actions encapsula ações.
+    public void navigate(Runnable showMenu, Map<Integer, Runnable> actions) { 
 
         running = true;
         while (running) {
@@ -21,14 +21,14 @@ public class MenuNavigator {
             try {
                 int option = scan.nextInt();
                 scan.nextLine();
-                Runnable action = actions.get(option); // <- busca a ação associada a chave informada.
+                Runnable action = actions.get(option);
 
                 if (action == null) {
                     System.out.println("Opção inválida");
                     continue;
                 }
 
-                action.run(); // <-- executa a ação
+                action.run(); 
 
                 if (option == 0) {
                     break;
