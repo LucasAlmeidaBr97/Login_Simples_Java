@@ -38,6 +38,10 @@ public class Validator {
         return role != null && (role.equals("ADMIN") || role.equals("STOKIST"));
     }
 
+    public static boolean isValidId(Long id) {
+        return id != null && id <= 0;
+    }
+
 
     public static String validateName(String name) {
         while (true) {
@@ -101,6 +105,18 @@ public class Validator {
                 role = scan.nextLine().toUpperCase();
             }
         }
-    }     
+    }
+    
+    public static Long validateId(Long id){
+        while (true) {
+            if (isValidId(id)) {
+                return id;
+            } else {
+                System.out.println("Erro: Este Id de usuário é inválido (Um número maior que zero).");
+                System.out.print("Tente novamente: ");
+                id = scan.nextLong();
+            }
+        }
+    }
 
 }

@@ -59,6 +59,10 @@ public class AdminMenu implements Menu {
         System.out.println("1. Ativo | 2. Inativo | 3. Bloqueado | 0. Voltar");
     }
 
+    public void selectUser(){
+        
+    }
+
     private void findInternal(Supplier<List<User>> searchStrategy) {
         List<User> users = searchStrategy.get();
 
@@ -78,6 +82,7 @@ public class AdminMenu implements Menu {
             System.out.println("--------------------------------------");
             System.out.println(user);
             System.out.println("--------------------------------------");
+            System.out.println("        Deseja selcionar algum desses usuários? ");
         }
     }
 
@@ -114,6 +119,10 @@ public class AdminMenu implements Menu {
                         3, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.LOCKED)),
                         0, () -> {
                         }));
+    }
+
+    public void selectUserFlow(){
+
     }
 
 }

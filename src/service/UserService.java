@@ -3,9 +3,6 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.text.html.parser.Entity;
-
 import model.User;
 import model.enums.EntityStatus;
 import repository.UserDAO;
@@ -82,6 +79,10 @@ public class UserService {
         }
         return results;
     }
-        
+    
+    public User getUserById(Long id){
+        User UserResult = userDAO.findById(id);
+        return UserResult;    
+    }
 
 }
