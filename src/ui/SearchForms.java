@@ -32,4 +32,11 @@ public class SearchForms {
         }
         return userService.getUsersByStatus(status);
     }
+
+    public User selectById(){
+        System.out.println("Digite o Id do usuário a ser selecionado: ");
+        Long id = validator.validateId(scan.nextLong());
+        return userService.getUserById(id);
+
+    }
 }

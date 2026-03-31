@@ -46,4 +46,8 @@ public class UserDAO {
         usersByEmail.put(user.getEmail().toLowerCase(), user);
     }
 
+    public User findById(Long id){
+        return users.get(id);    
+    }
+
 }
