@@ -39,7 +39,7 @@ public class Validator {
     }
 
     public static boolean isValidId(Long id) {
-        return id != null && id <= 0;
+        return id != null && id > 0;
     }
 
 
@@ -114,7 +114,7 @@ public class Validator {
             } else {
                 System.out.println("Erro: Este Id de usuário é inválido (Um número maior que zero).");
                 System.out.print("Tente novamente: ");
-                id = scan.nextLong();
+                id = Long.parseLong(scan.nextLine());
             }
         }
     }

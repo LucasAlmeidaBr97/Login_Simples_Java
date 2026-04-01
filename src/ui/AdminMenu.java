@@ -59,8 +59,9 @@ public class AdminMenu implements Menu {
         System.out.println("1. Ativo | 2. Inativo | 3. Bloqueado | 0. Voltar");
     }
 
-    public void selectUser(){
-        
+    public void selectUserMenu() {
+        System.out.println("        Deseja selcionar algum desses usuários? ");
+        System.out.println("1. Sim | 2. Não");
     }
 
     private void findInternal(Supplier<List<User>> searchStrategy) {
@@ -72,6 +73,7 @@ public class AdminMenu implements Menu {
             userFinder.clear();
             userFinder.addAll(users);
             showUsers();
+            userResultFlow();
         }
     }
 
@@ -82,8 +84,11 @@ public class AdminMenu implements Menu {
             System.out.println("--------------------------------------");
             System.out.println(user);
             System.out.println("--------------------------------------");
-            System.out.println("        Deseja selcionar algum desses usuários? ");
         }
+        System.out.println("Escolha uma opção: ");
+        System.out.println("1. Selecionar usuário");
+        System.out.println("0. Voltar");
+
     }
 
     @Override
@@ -121,8 +126,16 @@ public class AdminMenu implements Menu {
                         }));
     }
 
-    public void selectUserFlow(){
-
+    public void userResultFlow() {
+        navigator.navigate(
+                this::showUsers,
+                Map.of(
+                        1, () -> {
+                            User user = searchForms.selectById();
+                            System.out.println(" Encontrado ====" + user);
+                        },
+                        0, () -> {
+                        }));
     }
 
 }
