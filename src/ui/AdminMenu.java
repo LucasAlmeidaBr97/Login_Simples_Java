@@ -14,6 +14,7 @@ public class AdminMenu implements Menu {
     private final List<User> userFinder = new ArrayList<>();
     private final MenuNavigator navigator = new MenuNavigator();
     private final AuthService authService = new AuthService();
+    private User selectedUser;
 
     @Override
     public void showMenu() {
@@ -57,24 +58,7 @@ public class AdminMenu implements Menu {
         System.out.println("--------------------------------------");
         System.out.println("Escolha uma opção: ");
         System.out.println("1. Ativo | 2. Inativo | 3. Bloqueado | 0. Voltar");
-    }
 
-    public void selectUserMenu() {
-        System.out.println("        Deseja selcionar algum desses usuários? ");
-        System.out.println("1. Sim | 2. Não");
-    }
-
-    private void findInternal(Supplier<List<User>> searchStrategy) {
-        List<User> users = searchStrategy.get();
-
-        if (users.isEmpty()) {
-            System.out.println("Nenhum usuário encontrado.");
-        } else {
-            userFinder.clear();
-            userFinder.addAll(users);
-            showUsers();
-            userResultFlow();
-        }
     }
 
     public void showUsers() {
@@ -89,6 +73,29 @@ public class AdminMenu implements Menu {
         System.out.println("1. Selecionar usuário");
         System.out.println("0. Voltar");
 
+    }
+
+    public void selectedProfile(){
+        System.out.println("\n####################################");
+        System.out.println("      Informações do Usuário Selecionado");
+        
+        System.out.println("--------------------------------------");
+        System.out.println("Nome: " + selectedUser.getName() + " | Nascimento: " + selectedUser.getBirthDate());
+        System.out.println("E-mail: " + selectedUser.getEmail() + "| Status: " + selectedUser.getStatus());
+        System.out.println("--------------------------------------");
+    }
+
+    private void findInternal(Supplier<List<User>> searchStrategy) {
+        List<User> users = searchStrategy.get();
+
+        if (users.isEmpty()) {
+            System.out.println("Nenhum usuário encontrado.");
+        } else {
+            userFinder.clear();
+            userFinder.addAll(users);
+
+            userResultFlow();
+        }
     }
 
     @Override
@@ -131,11 +138,15 @@ public class AdminMenu implements Menu {
                 this::showUsers,
                 Map.of(
                         1, () -> {
-                            User user = searchForms.selectById();
-                            System.out.println(" Encontrado ====" + user);
+                            selectedUser = searchForms.selectById();   
+                            selectedProfile();
                         },
                         0, () -> {
                         }));
+    }
+
+    public void selectedUserFlow(){
+        
     }
 
 }
