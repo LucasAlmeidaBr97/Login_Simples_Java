@@ -75,14 +75,22 @@ public class AdminMenu implements Menu {
 
     }
 
-    public void selectedProfile(){
+    public void selectedProfile() {
         System.out.println("\n####################################");
         System.out.println("      Informações do Usuário Selecionado");
-        
+
         System.out.println("--------------------------------------");
         System.out.println("Nome: " + selectedUser.getName() + " | Nascimento: " + selectedUser.getBirthDate());
         System.out.println("E-mail: " + selectedUser.getEmail() + "| Status: " + selectedUser.getStatus());
         System.out.println("--------------------------------------");
+    }
+
+    public void profileOptions() {
+        System.out.println("--------------------------------------");
+        System.out.println("Escolha uma opção: ");
+        System.out.println("1. Editar dados pessoais");
+        System.out.println("2. Editar dados da conta");
+        System.out.println("0. voltar");
     }
 
     private void findInternal(Supplier<List<User>> searchStrategy) {
@@ -93,9 +101,25 @@ public class AdminMenu implements Menu {
         } else {
             userFinder.clear();
             userFinder.addAll(users);
-
             userResultFlow();
         }
+    }
+
+    private void selectUser() {
+        User user = searchForms.selectById();
+
+        if (user == null) {
+            System.out.println("Usuário não encontrado.");
+            return;
+        }
+
+        if (userFinder.stream().noneMatch(u -> u.getId().equals(user.getId()))) {
+            System.out.println("Selecione um usuário da lista exibida.");
+            return;
+        }
+
+        selectedUser = user;
+        selectedUserFlow();
     }
 
     @Override
@@ -137,16 +161,18 @@ public class AdminMenu implements Menu {
         navigator.navigate(
                 this::showUsers,
                 Map.of(
-                        1, () -> {
-                            selectedUser = searchForms.selectById();   
-                            selectedProfile();
-                        },
+                        1, this::selectUser,
                         0, () -> {
                         }));
     }
 
-    public void selectedUserFlow(){
-        
+    public void selectedUserFlow() {
+        selectedProfile();
+        navigator.navigate(
+                this::profileOptions,
+                Map.of(0, () -> {
+
+                }));
     }
 
 }
