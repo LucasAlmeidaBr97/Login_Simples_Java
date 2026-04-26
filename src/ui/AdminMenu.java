@@ -8,12 +8,19 @@ import java.util.function.Supplier;
 import auth.AuthService;
 import model.User;
 import model.enums.EntityStatus;
+import service.strategy.AdminServiceStrategy;
+import ui.UpdateForms.UpdateResult;
 
 public class AdminMenu implements Menu {
     private final SearchForms searchForms = new SearchForms();
     private final List<User> userFinder = new ArrayList<>();
     private final MenuNavigator navigator = new MenuNavigator();
     private final AuthService authService = new AuthService();
+
+    private final AdminServiceStrategy strategy = new AdminServiceStrategy();
+    private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
+    private UserUpdateFlow userUpdateFlow = new UserUpdateFlow(navigator, updateForms);
+
     private User selectedUser;
 
     @Override
@@ -21,8 +28,7 @@ public class AdminMenu implements Menu {
         System.out.println("\n####################################");
         System.out.println("            Painel do ADMIN");
         System.out.println("1. Buscar Usuário");
-        System.out.println("2. Cadastrar Nono Usuário");
-        System.out.println("3. Resetar Senha de Usuário");
+        System.out.println("2. Cadastrar Novo Usuário");
         System.out.println("0. Logout");
         System.out.print("Escolha: ");
     }
@@ -72,16 +78,15 @@ public class AdminMenu implements Menu {
         System.out.println("Escolha uma opção: ");
         System.out.println("1. Selecionar usuário");
         System.out.println("0. Voltar");
-
     }
 
-    public void selectedProfile() {
+    public void selecetedUserProfile() {
         System.out.println("\n####################################");
-        System.out.println("      Informações do Usuário Selecionado");
+        System.out.println("      Usuário selecionado");
 
         System.out.println("--------------------------------------");
         System.out.println("Nome: " + selectedUser.getName() + " | Nascimento: " + selectedUser.getBirthDate());
-        System.out.println("E-mail: " + selectedUser.getEmail() + "| Status: " + selectedUser.getStatus());
+        System.out.println("E-mail: " + selectedUser.getEmail() + " | Status: " + selectedUser.getStatus());
         System.out.println("--------------------------------------");
     }
 
@@ -89,8 +94,39 @@ public class AdminMenu implements Menu {
         System.out.println("--------------------------------------");
         System.out.println("Escolha uma opção: ");
         System.out.println("1. Editar dados pessoais");
-        System.out.println("2. Editar dados da conta");
-        System.out.println("0. voltar");
+        System.out.println("2. " + optionStatusLabel());
+        System.out.println("3. Resetar Senha de Usuário");
+        System.out.println("0. Voltar");
+    }
+
+    public void updateStatusMenu() {
+        EntityStatus status = selectedUser.getStatus();
+        System.out.println("--------------------------------------");
+        System.out.println("O status atual da conta é: " + status.getLabel());
+        if (status == EntityStatus.ACTIVE) {
+            System.out.println("1. Desativar | 2. Bloquear | 0. Voltar");
+        } else if (status == EntityStatus.INACTIVE) {
+            System.out.println("1. Ativar | 0. Voltar");
+        } else if (status == EntityStatus.LOCKED) {
+            System.out.println("1. Desbloquear | 0. Voltar");
+        }
+    }
+
+    public String optionStatusLabel() {
+        EntityStatus current = selectedUser.getStatus();
+        switch (current) {
+            case ACTIVE:
+                return "Desativar ou Bloquear";
+
+            case INACTIVE:
+                return "Ativar ou Bloquear";
+
+            case LOCKED:
+                return "Desbloquear";
+
+            default:
+                return "Status desconhecido";
+        }
     }
 
     private void findInternal(Supplier<List<User>> searchStrategy) {
@@ -117,9 +153,13 @@ public class AdminMenu implements Menu {
             System.out.println("Selecione um usuário da lista exibida.");
             return;
         }
-
         selectedUser = user;
         selectedUserFlow();
+    }
+
+    public void updateStatus() {
+        var result = updateForms.updateStatus(1, selectedUser);
+        System.out.println("aqui");
     }
 
     @Override
@@ -167,12 +207,24 @@ public class AdminMenu implements Menu {
     }
 
     public void selectedUserFlow() {
-        selectedProfile();
+        selecetedUserProfile();
         navigator.navigate(
                 this::profileOptions,
-                Map.of(0, () -> {
+                Map.of(
+                        1, userUpdateFlow::updatePersonalFlow,
+                        2, this::updateStatusFlow,
+                        0, () -> {
+                        }));
+    }
 
-                }));
+    public void updateStatusFlow() {
+        navigator.navigate(
+                this::updateStatusMenu,
+                Map.of(
+                        1, this::updateStatus,
+                        0, () -> {
+
+                        }));
     }
 
 }

@@ -18,6 +18,8 @@ public class ConsumerMenu implements Menu {
 
     private final SelfServiceStrategy strategy = new SelfServiceStrategy();
     private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
+    
+    
 
     @Override
     public void showMenu() {
@@ -37,7 +39,6 @@ public class ConsumerMenu implements Menu {
         System.out.println("Nome: " + user.getName() + " | Nascimento: " + user.getBirthDate());
         System.out.println("E-mail: " + user.getEmail() + " | Status: " + user.getStatus());
         System.out.println("--------------------------------------");
-
     }
 
     public void profileOptions() {

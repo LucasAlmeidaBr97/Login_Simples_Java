@@ -51,6 +51,10 @@ public class UserSession {
         return this.userRole == UserRole.ADMIN || this.userRole == requiredRole;
     }
 
+    public boolean isAdmin() {
+        return this.userRole == UserRole.ADMIN;
+    }
+
     public boolean isLogged() {
         return userId != null;
     }

@@ -32,7 +32,7 @@ public class UpdateForms {
         this.credStrategy = credStrategy;
     }
 
-    private boolean executeSecureUpdate(String successMsg, Consumer<User> updateLogic) {
+    private boolean executeSecureUpdate(String successMsg,  Consumer<User> updateLogic) {
         System.out.println("\nDigite sua senha para confirmar as atualizações: ");
         String password = validator.validatePassword(scan.nextLine());
 
@@ -40,7 +40,7 @@ public class UpdateForms {
             User user = userService.getUser(UserSession.getInstance().getEmail());
 
             updateLogic.accept(user);
-            userStrategy.update(user); 
+            userStrategy.update(user);
 
             System.out.println("\n============================");
             System.out.println(successMsg + " com sucesso!");
@@ -53,6 +53,9 @@ public class UpdateForms {
     }
 
     public void nameForm() {
+        if (UserSession.getInstance().isAdmin()) {
+            System.out.println("ADMIN Editando");
+        }
         System.out.println("Digite seu novo nome: ");
         String name = validator.validateName(scan.nextLine());
         executeSecureUpdate("Nome atualizado", user -> user.setName(name));
@@ -76,7 +79,7 @@ public class UpdateForms {
 
             if (newPwd.equals(confirmPwd)) {
                 User user = userService.getUser(UserSession.getInstance().getEmail());
-                credStrategy.updatePassword(user, newPwd); 
+                credStrategy.updatePassword(user, newPwd);
                 System.out.println("Senha atualizada com sucesso!");
             } else {
                 System.out.println("As senhas informadas divergem.");
@@ -97,6 +100,25 @@ public class UpdateForms {
         if (success && newStatus == EntityStatus.INACTIVE) {
             return UpdateResult.LOGOUT;
         }
+        return success ? UpdateResult.UPDATED : UpdateResult.CANCEL;
+    }
+
+    public UpdateResult updateStatus(int option, User user) {
+        EntityStatus currentStatus = user.getStatus();
+        EntityStatus newStatus;
+        String label = "";
+        if (option == 1) {
+            newStatus = (currentStatus == EntityStatus.ACTIVE) ? EntityStatus.INACTIVE : EntityStatus.ACTIVE;
+            label = (newStatus == EntityStatus.INACTIVE) ? "desativado" : "ativado";
+        } else if (option == 2) {
+            newStatus = (currentStatus == EntityStatus.LOCKED) ? EntityStatus.INACTIVE : EntityStatus.LOCKED;
+            label = (newStatus == EntityStatus.LOCKED) ? "bloqueado" : "desbloqueado";
+        } else {
+            System.out.println("Opção inválida!");
+            return UpdateResult.CANCEL;
+        }
+
+        boolean success = executeSecureUpdate("Status " + label, u -> u.setStatus(newStatus));
         return success ? UpdateResult.UPDATED : UpdateResult.CANCEL;
     }
 }
