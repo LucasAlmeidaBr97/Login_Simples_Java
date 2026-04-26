@@ -82,9 +82,14 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
+    public boolean isAdmin() {
+        return this.userRole == UserRole.ADMIN;
+    }
+
     @Override
     public String toString() {
-        return "Usuário [ Id: " + id + " | Nome: " + name + " | E-mail: " + email + " | Nível: " + userRole + " | Status: " + status + "]";
+        return "Usuário [ Id: " + id + " | Nome: " + name + " | E-mail: " + email + " | Nível: " + userRole
+                + " | Status: " + status + "]";
     }
 
 }
