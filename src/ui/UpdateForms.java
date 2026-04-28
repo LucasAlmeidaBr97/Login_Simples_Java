@@ -32,12 +32,11 @@ public class UpdateForms {
         this.credStrategy = credStrategy;
     }
 
-    private boolean executeSecureUpdate(String successMsg,  Consumer<User> updateLogic) {
+    private boolean executeSecureUpdate(String successMsg, User user, Consumer<User> updateLogic) {
         System.out.println("\nDigite sua senha para confirmar as atualizações: ");
         String password = validator.validatePassword(scan.nextLine());
 
         if (authService.validatePassword(UserSession.getInstance().getUserId(), password)) {
-            User user = userService.getUser(UserSession.getInstance().getEmail());
 
             updateLogic.accept(user);
             userStrategy.update(user);
@@ -53,18 +52,17 @@ public class UpdateForms {
     }
 
     public void nameForm() {
-        if (UserSession.getInstance().isAdmin()) {
-            System.out.println("ADMIN Editando");
-        }
+        User user = userService.getUser(UserSession.getInstance().getEmail());
         System.out.println("Digite seu novo nome: ");
         String name = validator.validateName(scan.nextLine());
-        executeSecureUpdate("Nome atualizado", user -> user.setName(name));
+        executeSecureUpdate("Nome atualizado", user, u -> u.setName(name));
     }
 
     public void birthForm() {
+        User user = userService.getUser(UserSession.getInstance().getEmail());
         System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
         LocalDate date = validator.validateDate(scan.nextLine());
-        executeSecureUpdate("Aniversário atualizado", user -> user.setBirthDate(date));
+        executeSecureUpdate("Aniversário atualizado", user, u -> u.setBirthDate(date));
     }
 
     public void passwordForm() {
@@ -95,7 +93,7 @@ public class UpdateForms {
                 : EntityStatus.ACTIVE;
         String label = (newStatus == EntityStatus.INACTIVE) ? "desativado" : "ativado";
 
-        boolean success = executeSecureUpdate("Status " + label, u -> u.setStatus(newStatus));
+        boolean success = executeSecureUpdate("Status " + label, user, u -> u.setStatus(newStatus));
 
         if (success && newStatus == EntityStatus.INACTIVE) {
             return UpdateResult.LOGOUT;
@@ -103,8 +101,8 @@ public class UpdateForms {
         return success ? UpdateResult.UPDATED : UpdateResult.CANCEL;
     }
 
-    public UpdateResult updateStatus(int option, User user) {
-        EntityStatus currentStatus = user.getStatus();
+    public UpdateResult updateStatus(int option, User userToUpdate) {
+        EntityStatus currentStatus = userToUpdate.getStatus();
         EntityStatus newStatus;
         String label = "";
         if (option == 1) {
@@ -118,7 +116,7 @@ public class UpdateForms {
             return UpdateResult.CANCEL;
         }
 
-        boolean success = executeSecureUpdate("Status " + label, u -> u.setStatus(newStatus));
+        boolean success = executeSecureUpdate("Status " + label, userToUpdate, u -> u.setStatus(newStatus));
         return success ? UpdateResult.UPDATED : UpdateResult.CANCEL;
     }
 }

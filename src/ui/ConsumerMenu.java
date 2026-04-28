@@ -7,7 +7,7 @@ import auth.UserSession;
 import model.User;
 import model.enums.EntityStatus;
 import service.UserService;
-import service.strategy.SelfServiceStrategy;
+import service.strategy.SelfUpdadeStrategy;
 import ui.UpdateForms.UpdateResult;
 
 public class ConsumerMenu implements Menu {
@@ -15,8 +15,7 @@ public class ConsumerMenu implements Menu {
     private final AuthService authService = new AuthService();
     private final UserService userService = new UserService();
     private final MenuNavigator navigator = new MenuNavigator();
-
-    private final SelfServiceStrategy strategy = new SelfServiceStrategy();
+    private final SelfUpdadeStrategy strategy = new SelfUpdadeStrategy();
     private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
     
     

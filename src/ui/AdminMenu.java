@@ -8,8 +8,7 @@ import java.util.function.Supplier;
 import auth.AuthService;
 import model.User;
 import model.enums.EntityStatus;
-import service.strategy.AdminServiceStrategy;
-import ui.UpdateForms.UpdateResult;
+import service.strategy.SelfUpdadeStrategy;
 
 public class AdminMenu implements Menu {
     private final SearchForms searchForms = new SearchForms();
@@ -17,9 +16,8 @@ public class AdminMenu implements Menu {
     private final MenuNavigator navigator = new MenuNavigator();
     private final AuthService authService = new AuthService();
 
-    private final AdminServiceStrategy strategy = new AdminServiceStrategy();
+    private final SelfUpdadeStrategy strategy = new SelfUpdadeStrategy();
     private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
-    private UserUpdateFlow userUpdateFlow = new UserUpdateFlow(navigator, updateForms);
 
     private User selectedUser;
 
@@ -90,6 +88,13 @@ public class AdminMenu implements Menu {
         System.out.println("--------------------------------------");
     }
 
+    public void updatePersonalOptions() {
+        System.out.println("\n#########################################");
+        System.out.println("      Atualizar informações do seu perfil");
+        System.out.println("Escolha uma opção");
+        System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
+    }
+
     public void profileOptions() {
         System.out.println("--------------------------------------");
         System.out.println("Escolha uma opção: ");
@@ -157,8 +162,8 @@ public class AdminMenu implements Menu {
         selectedUserFlow();
     }
 
-    public void updateStatus() {
-        var result = updateForms.updateStatus(1, selectedUser);
+    public void updateStatus(int option) {
+        var result = updateForms.updateStatus(option, selectedUser);
         System.out.println("aqui");
     }
 
@@ -211,8 +216,18 @@ public class AdminMenu implements Menu {
         navigator.navigate(
                 this::profileOptions,
                 Map.of(
-                        1, userUpdateFlow::updatePersonalFlow,
+                        1, this::updatePersonalFlow,
                         2, this::updateStatusFlow,
+                        0, () -> {
+                        }));
+    }
+
+    public void updatePersonalFlow() {
+        navigator.navigate(
+                this::updatePersonalOptions,
+                Map.of(
+                        1, updateForms::nameForm,
+                        2, updateForms::birthForm,
                         0, () -> {
                         }));
     }
@@ -221,7 +236,8 @@ public class AdminMenu implements Menu {
         navigator.navigate(
                 this::updateStatusMenu,
                 Map.of(
-                        1, this::updateStatus,
+                        1, () -> updateStatus(1),
+                        2, () -> updateStatus(2),
                         0, () -> {
 
                         }));
