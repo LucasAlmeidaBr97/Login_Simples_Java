@@ -8,7 +8,11 @@ import java.util.function.Supplier;
 import auth.AuthService;
 import model.User;
 import model.enums.EntityStatus;
+import model.enums.UserRole;
+import service.strategy.RegistrationStrategy;
+import service.strategy.SelfRegistrationStrategy;
 import service.strategy.SelfUpdadeStrategy;
+import service.strategy.UserRegistrationStrategy;
 
 public class AdminMenu implements Menu {
     private final SearchForms searchForms = new SearchForms();
@@ -20,6 +24,14 @@ public class AdminMenu implements Menu {
     private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
 
     private User selectedUser;
+
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
 
     @Override
     public void showMenu() {
@@ -34,24 +46,14 @@ public class AdminMenu implements Menu {
     public void findMenu() {
         System.out.println("\n####################################");
         System.out.println("            Escolha uma opção");
-        System.out.println("1. Interno (STOKIST/ADMIN)");
+        System.out.println("1. Interno (STOKIST)");
         System.out.println("2. Externo (CONSUMER)");
         System.out.println("0. Voltar.");
     }
 
-    public void findInternalUser() {
+    public void findlUserMenu(String label) {
         System.out.println("\n####################################");
-        System.out.println("            Buscar por Usuários Internos");
-        System.out.println("1. Buscar por Nome");
-        System.out.println("2. Buscar por E-mail");
-        System.out.println("3. Buscar por Status");
-        System.out.println("4. Buscar por Papel");
-        System.out.println("0. Voltar.");
-    }
-
-    public void findExternalUser() {
-        System.out.println("\n####################################");
-        System.out.println("            Buscar por Usuários Externos");
+        System.out.println("            Buscar por Usuários " + label);
         System.out.println("1. Buscar por Nome");
         System.out.println("2. Buscar por E-mail");
         System.out.println("3. Buscar por Status");
@@ -134,8 +136,11 @@ public class AdminMenu implements Menu {
         }
     }
 
-    private void findInternal(Supplier<List<User>> searchStrategy) {
-        List<User> users = searchStrategy.get();
+    private void findInternal(Supplier<List<User>> searchStrategy, UserRole role) {
+        List<User> users = searchStrategy.get()
+                .stream()
+                .filter(user -> user.getUserRole() == role)
+                .toList();
 
         if (users.isEmpty()) {
             System.out.println("Nenhum usuário encontrado.");
@@ -167,12 +172,30 @@ public class AdminMenu implements Menu {
         System.out.println("aqui");
     }
 
+    public void registerUser(int option) {
+        System.out.println("Iniciando Cadastro... ");
+
+        UserRegistrationStrategy registrationUserStrategy;
+
+        if (option == 1) {
+            registrationUserStrategy = new RegistrationStrategy();
+        } else if (option == 2) {
+            registrationUserStrategy = new SelfRegistrationStrategy();
+        } else {
+            throw new IllegalArgumentException("Opção inválida");
+        }
+
+        RegisterForm registerForm = new RegisterForm(registrationUserStrategy);
+        registerForm.show();
+    }
+
     @Override
     public void setPath() {
         navigator.navigate(
                 this::showMenu,
                 Map.of(
                         1, this::findMenuFlow,
+                        2, this::registerFlow,
                         0, () -> {
                             System.out.println("Desconectando ... ");
                             authService.logout();
@@ -182,22 +205,43 @@ public class AdminMenu implements Menu {
 
     public void findMenuFlow() {
         navigator.navigate(
-                this::findInternalUser,
+                this::findMenu,
                 Map.of(
-                        1, () -> findInternal(searchForms::searchByNameForm),
-                        2, () -> findInternal(searchForms::searchByEmailForm),
-                        3, this::findByStatusFlow,
+                        1, this::findInternalFlow,
+                        2, this::findExternalFlow,
                         0, () -> {
                         }));
     }
 
-    public void findByStatusFlow() {
+    public void findInternalFlow() {
+        navigator.navigate(
+                () -> findlUserMenu("Internos"),
+                Map.of(
+                        1, () -> findInternal(searchForms::searchByNameForm, UserRole.STOKIST),
+                        2, () -> findInternal(searchForms::searchByEmailForm, UserRole.STOKIST),
+                        3, () -> findByStatusFlow(UserRole.STOKIST),
+                        0, () -> {
+                        }));
+    }
+
+    public void findExternalFlow() {
+        navigator.navigate(
+                () -> findlUserMenu("Externos"),
+                Map.of(
+                        1, () -> findInternal(searchForms::searchByNameForm, UserRole.CONSUMER),
+                        2, () -> findInternal(searchForms::searchByEmailForm, UserRole.CONSUMER),
+                        3, () -> findByStatusFlow(UserRole.CONSUMER),
+                        0, () -> {
+                        }));
+    }
+
+    public void findByStatusFlow(UserRole role) {
         navigator.navigate(
                 this::findByStatusMenu,
                 Map.of(
-                        1, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.ACTIVE)),
-                        2, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.INACTIVE)),
-                        3, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.LOCKED)),
+                        1, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.ACTIVE), role),
+                        2, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.INACTIVE), role),
+                        3, () -> findInternal(() -> searchForms.searchByStatusForm(EntityStatus.LOCKED), role),
                         0, () -> {
                         }));
     }
@@ -218,6 +262,7 @@ public class AdminMenu implements Menu {
                 Map.of(
                         1, this::updatePersonalFlow,
                         2, this::updateStatusFlow,
+                        3, () -> updateForms.passwordForm(getSelectedUser()),
                         0, () -> {
                         }));
     }
@@ -226,8 +271,8 @@ public class AdminMenu implements Menu {
         navigator.navigate(
                 this::updatePersonalOptions,
                 Map.of(
-                        1, updateForms::nameForm,
-                        2, updateForms::birthForm,
+                        1, () -> updateForms.nameForm(getSelectedUser()),
+                        2, () -> updateForms.birthForm(getSelectedUser()),
                         0, () -> {
                         }));
     }
@@ -240,6 +285,16 @@ public class AdminMenu implements Menu {
                         2, () -> updateStatus(2),
                         0, () -> {
 
+                        }));
+    }
+
+    public void registerFlow() {
+        navigator.navigate(
+                this::findMenu,
+                Map.of(
+                        1, () -> registerUser(1),
+                        2, () -> registerUser(2),
+                        0, () -> {
                         }));
     }
 

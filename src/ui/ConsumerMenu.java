@@ -83,15 +83,21 @@ public class ConsumerMenu implements Menu {
     }
 
     public void updatePassword() {
-        updateForms.passwordForm();
+        String email = UserSession.getInstance().getEmail();
+        User user = userService.getUser(email);
+        updateForms.passwordForm(user);
     }
 
     public void updateName() {
-        updateForms.nameForm();
+        String email = UserSession.getInstance().getEmail();
+        User user = userService.getUser(email);
+        updateForms.nameForm(user);
     }
 
     public void updateBirth() {
-        updateForms.birthForm();
+        String email = UserSession.getInstance().getEmail();
+        User user = userService.getUser(email);
+        updateForms.birthForm(user);
     }
 
     @Override
