@@ -18,7 +18,7 @@ public class DataInitializer {
     }
 
     private static void initUsers(UserDAO userDAO) {
-        userDAO.saveUser(new User("João", "joao@email.com",
+        userDAO.saveUser(new User("Joao", "joao@email.com",
                 LocalDate.of(2002, 2, 2), UserRole.CONSUMER, EntityStatus.ACTIVE));
 
         userDAO.saveUser(new User("Carlos", "carlos@email.com",

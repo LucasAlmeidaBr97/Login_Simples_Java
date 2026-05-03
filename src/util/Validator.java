@@ -48,7 +48,7 @@ public class Validator {
             if (isValidName(name)) {
                 return name;
             } else {
-                System.out.println("Erro: Entrada inválida! Digite apenas letras.");
+                System.out.println("Erro: Entrada inválida! Digite apenas letras. Ou remova os assentos");
                 System.out.print("Tente novamente: ");
                 name = scan.nextLine();
             }
