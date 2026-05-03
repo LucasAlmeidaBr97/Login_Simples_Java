@@ -51,21 +51,19 @@ public class UpdateForms {
         }
     }
 
-    public void nameForm() {
-        User user = userService.getUser(UserSession.getInstance().getEmail());
+    public void nameForm(User userToUpdate) {
         System.out.println("Digite seu novo nome: ");
         String name = validator.validateName(scan.nextLine());
-        executeSecureUpdate("Nome atualizado", user, u -> u.setName(name));
+        executeSecureUpdate("Nome atualizado", userToUpdate, u -> u.setName(name));
     }
 
-    public void birthForm() {
-        User user = userService.getUser(UserSession.getInstance().getEmail());
+    public void birthForm(User userToUpdate) {
         System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
         LocalDate date = validator.validateDate(scan.nextLine());
-        executeSecureUpdate("Aniversário atualizado", user, u -> u.setBirthDate(date));
+        executeSecureUpdate("Aniversário atualizado", userToUpdate, u -> u.setBirthDate(date));
     }
 
-    public void passwordForm() {
+    public void passwordForm(User userToUpdate) {
         System.out.println("Digite sua senha ATUAL: ");
         String currentPassword = validator.validatePassword(scan.nextLine());
 
@@ -76,8 +74,7 @@ public class UpdateForms {
             String confirmPwd = validator.validatePassword(scan.nextLine());
 
             if (newPwd.equals(confirmPwd)) {
-                User user = userService.getUser(UserSession.getInstance().getEmail());
-                credStrategy.updatePassword(user, newPwd);
+                credStrategy.updatePassword(userToUpdate, newPwd);
                 System.out.println("Senha atualizada com sucesso!");
             } else {
                 System.out.println("As senhas informadas divergem.");
