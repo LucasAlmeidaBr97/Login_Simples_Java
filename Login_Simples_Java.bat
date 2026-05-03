@@ -1,3 +1,7 @@
 @echo off
-java -jar Login_Simples_Java.jar
+cd /d "%~dp0"
+chcp 65001 > nul
+
+java -Dfile.encoding=UTF-8 -jar Login_Simples_Java.jar
+
 pause
