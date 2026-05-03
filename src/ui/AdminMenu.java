@@ -143,7 +143,10 @@ public class AdminMenu implements Menu {
                 .toList();
 
         if (users.isEmpty()) {
+            System.out.println("\n--------------------------------------");
             System.out.println("Nenhum usuário encontrado.");
+            System.out.println("--------------------------------------");
+
         } else {
             userFinder.clear();
             userFinder.addAll(users);
@@ -160,7 +163,10 @@ public class AdminMenu implements Menu {
         }
 
         if (userFinder.stream().noneMatch(u -> u.getId().equals(user.getId()))) {
+            System.out.println("\n--------------------------------------");
+            System.out.println("[ERRO] ID inválido");
             System.out.println("Selecione um usuário da lista exibida.");
+            System.out.println("--------------------------------------");
             return;
         }
         selectedUser = user;

@@ -1,5 +1,6 @@
 package service;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +51,14 @@ public class UserService {
     public List<User> getUserByName(String name) {
         List<User> results = new ArrayList<>();
         Map<Long, User> allUsers = userDAO.getUserMap();
-        for (User user : allUsers.values()) { 
-            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
+
+        String normalizedInput = normalize(name);
+
+        for (User user : allUsers.values()) {
+
+            String normalizedUserName = normalize(user.getName());
+
+            if (normalizedUserName.contains(normalizedInput)) {
                 results.add(user);
             }
         }
@@ -61,8 +68,8 @@ public class UserService {
     public List<User> getUsersByEmail(String email) {
         List<User> results = new ArrayList<>();
         Map<Long, User> allUsers = userDAO.getUserMap();
-        for(User user : allUsers.values()) {
-            if(user.getEmail().toLowerCase().contains(email.toLowerCase())) {
+        for (User user : allUsers.values()) {
+            if (user.getEmail().toLowerCase().contains(email.toLowerCase())) {
                 results.add(user);
             }
         }
@@ -72,17 +79,24 @@ public class UserService {
     public List<User> getUsersByStatus(EntityStatus status) {
         List<User> results = new ArrayList<>();
         Map<Long, User> allUsers = userDAO.getUserMap();
-        for(User user : allUsers.values()) {
-            if(user.getStatus() == status) {
+        for (User user : allUsers.values()) {
+            if (user.getStatus() == status) {
                 results.add(user);
             }
         }
         return results;
     }
-    
-    public User getUserById(Long id){
+
+    public User getUserById(Long id) {
         User UserResult = userDAO.findById(id);
-        return UserResult;    
+        return UserResult;
+    }
+
+    public static String normalize(String str) {
+        return Normalizer
+                .normalize(str, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase();
     }
 
 }

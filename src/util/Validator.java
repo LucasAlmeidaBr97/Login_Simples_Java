@@ -11,7 +11,7 @@ public class Validator {
     private static final String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-z]{2,}$";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*().]).{8,}$";
-    static Scanner scan = new Scanner(System.in);
+    static Scanner scan = new Scanner(System.in, "UTF-8");
 
     public static boolean isValidName(String name) {
         return name != null && Pattern.matches(nameRegex, name) && name.trim().length() > 2;
