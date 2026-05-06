@@ -47,21 +47,7 @@ public class AuthService {
             .anyMatch(c -> c.getPassword().equals(password));
     }
 
-    public String getPassword(Long userId) {
-        List<Credentials> list = credentialsDAO.findByUserId(userId);
-
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-
-        for (Credentials c : list) {
-            if (c.getStatus() == EntityStatus.ACTIVE) {
-                return c.getPassword();
-            }
-        }
-
-        return null;
-    }
+    
 
     public void logout() {
         UserSession.getInstance().stopSession();

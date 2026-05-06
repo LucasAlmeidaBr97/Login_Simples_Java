@@ -33,7 +33,7 @@ public class UpdateForms {
     }
 
     private boolean executeSecureUpdate(String successMsg, User user, Consumer<User> updateLogic) {
-        System.out.println("\nDigite sua senha para confirmar as atualizações: ");
+        System.out.println("\nConfirme com SUA senha de operador: ");
         String password = validator.validatePassword(scan.nextLine());
 
         if (authService.validatePassword(UserSession.getInstance().getUserId(), password)) {
@@ -52,19 +52,19 @@ public class UpdateForms {
     }
 
     public void nameForm(User userToUpdate) {
-        System.out.println("Digite seu novo nome: ");
+        System.out.println("Digite o novo nome: ");
         String name = validator.validateName(scan.nextLine());
         executeSecureUpdate("Nome atualizado", userToUpdate, u -> u.setName(name));
     }
 
     public void birthForm(User userToUpdate) {
-        System.out.println("Digite sua data de nascimento (dd/MM/yyyy): ");
+        System.out.println("Digite a data de nascimento (dd/MM/yyyy): ");
         LocalDate date = validator.validateDate(scan.nextLine());
         executeSecureUpdate("Aniversário atualizado", userToUpdate, u -> u.setBirthDate(date));
     }
 
     public void passwordForm(User userToUpdate) {
-        System.out.println("Digite sua senha ATUAL: ");
+        System.out.println("Confirme SUA senha atual (operador): ");
         String currentPassword = validator.validatePassword(scan.nextLine());
 
         if (authService.validatePassword(UserSession.getInstance().getUserId(), currentPassword)) {

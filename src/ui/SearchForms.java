@@ -35,7 +35,7 @@ public class SearchForms {
 
     public User selectById(){
         System.out.println("Digite o Id do usuário a ser selecionado: ");
-        Long id = validator.validateId(Long.parseLong(scan.nextLine()));
+        Long id = validator.validateId((scan.nextLine()));
         return userService.getUserById(id);
 
     }

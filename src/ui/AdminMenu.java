@@ -92,7 +92,7 @@ public class AdminMenu implements Menu {
 
     public void updatePersonalOptions() {
         System.out.println("\n#########################################");
-        System.out.println("      Atualizar informações do seu perfil");
+        System.out.println("      Atualizar informações do usuário");
         System.out.println("Escolha uma opção");
         System.out.println("1. Nome | 2. Data de nascimento | 0. Voltar");
     }
@@ -100,9 +100,9 @@ public class AdminMenu implements Menu {
     public void profileOptions() {
         System.out.println("--------------------------------------");
         System.out.println("Escolha uma opção: ");
-        System.out.println("1. Editar dados pessoais");
+        System.out.println("1. Editar dados cadastrais");
         System.out.println("2. " + optionStatusLabel());
-        System.out.println("3. Resetar Senha de Usuário");
+        System.out.println("3. Redefinir Senha do Usuário");
         System.out.println("0. Voltar");
     }
 
@@ -174,8 +174,7 @@ public class AdminMenu implements Menu {
     }
 
     public void updateStatus(int option) {
-        var result = updateForms.updateStatus(option, selectedUser);
-        System.out.println("aqui");
+        updateForms.updateStatus(option, selectedUser);
     }
 
     public void registerUser(int option) {
