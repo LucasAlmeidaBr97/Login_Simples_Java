@@ -6,38 +6,36 @@ import auth.AuthService;
 import auth.UserSession;
 import model.User;
 import model.enums.EntityStatus;
-import service.UserService;
 import service.strategy.SelfUpdadeStrategy;
 import ui.UpdateForms.UpdateResult;
 
-public class ConsumerMenu implements Menu {
+public class ConsumerMenu extends BaseUserMenu {
 
     private final AuthService authService = new AuthService();
-    private final UserService userService = new UserService();
-    private final MenuNavigator navigator = new MenuNavigator();
     private final SelfUpdadeStrategy strategy = new SelfUpdadeStrategy();
     private final UpdateForms updateForms = new UpdateForms(strategy, strategy);
-    
-    
 
     @Override
-    public void showMenu() {
-        System.out.println("\n####################################");
-        System.out.println("            Seja Bem Vindo!");
-        System.out.println("Escolha uma opção");
+    protected void printOptions() {
         System.out.println("1. Meu Perfil | 2. Log-out |");
     }
 
-    public void consumerProfile() {
-        System.out.println("\n####################################");
-        System.out.println("      Informações do seu perfil");
-        String email = UserSession.getInstance().getEmail();
-        User user = userService.getUser(email);
+    @Override
+    protected Map<Integer, Runnable> getActions() {
+        return Map.of(
+                1, this::profileFlow,
+                2, this::logout);
+    }
 
-        System.out.println("--------------------------------------");
-        System.out.println("Nome: " + user.getName() + " | Nascimento: " + user.getBirthDate());
-        System.out.println("E-mail: " + user.getEmail() + " | Status: " + user.getStatus());
-        System.out.println("--------------------------------------");
+    private void logout() {
+        System.out.println("Desconectando ... ");
+        authService.logout();
+        navigator.stop();
+    }
+
+    private Runnable back() {
+        return () -> {
+        };
     }
 
     public void profileOptions() {
@@ -119,20 +117,17 @@ public class ConsumerMenu implements Menu {
         navigator.navigate(this::updateStatusMenu,
                 Map.of(
                         1, this::updateStatus,
-                        0, () -> {
-
-                        }));
+                        0, this::back));
     }
 
     public void profileFlow() {
-        consumerProfile();
+        showProfile();
         navigator.navigate(
                 this::profileOptions,
                 Map.of(
                         1, this::updatePersonalFlow,
                         2, this::updateAccountFlow,
-                        0, () -> {
-                        }));
+                        0, this::back));
     }
 
     public void updatePersonalFlow() {
@@ -140,8 +135,7 @@ public class ConsumerMenu implements Menu {
                 this::updatePersonalOptions,
                 Map.of(1, this::updateName,
                         2, this::updateBirth,
-                        0, () -> {
-                        }));
+                        0, this::back));
     }
 
     public void updateAccountFlow() {
@@ -149,7 +143,6 @@ public class ConsumerMenu implements Menu {
                 this::updateAccountOptions,
                 Map.of(1, this::updatePassword,
                         2, this::updateStatusFlow,
-                        0, () -> {
-                        }));
+                        0, this::back));
     }
 }
