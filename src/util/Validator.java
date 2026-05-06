@@ -34,10 +34,6 @@ public class Validator {
         return password != null && Pattern.matches(passwordRegex, password);
     }
 
-    public static boolean isValidRole(String role) {
-        return role != null && (role.equals("ADMIN") || role.equals("STOKIST"));
-    }
-
     public static boolean isValidId(Long id) {
         return id != null && id > 0;
     }
@@ -95,27 +91,16 @@ public class Validator {
         }
     }
 
-    public static String validateRole(String role) {
+    public static Long validateId(String input) {
         while (true) {
-            if (isValidRole(role)) {
-                return role;
-            } else {
-                System.out.println("Erro: Papel de usuário inválido (ADMIN, STOKIST).");
-                System.out.print("Tente novamente: ");
-                role = scan.nextLine().toUpperCase();
+            try {
+                Long id = Long.parseLong(input);
+                if (isValidId(id)) return id;
+            } catch (NumberFormatException ignored) {
             }
-        }
-    }
-    
-    public static Long validateId(Long id){
-        while (true) {
-            if (isValidId(id)) {
-                return id;
-            } else {
-                System.out.println("Erro: Este Id de usuário é inválido (Um número maior que zero).");
-                System.out.print("Tente novamente: ");
-                id = Long.parseLong(scan.nextLine());
-            }
+            System.out.println("Erro: Id inválido. Digite um número positivo.");
+            System.out.print("Tente novamente: ");
+            input = scan.nextLine();
         }
     }
 

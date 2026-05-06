@@ -41,10 +41,10 @@ public class RegisterForm {
         System.out.print("Data de Nascimento (dd/MM/yyyy): ");
         this.user.setBirthDate(validator.validateDate(scan.nextLine()));
 
-        System.out.print("Defina sua senha: ");
+        System.out.print("Defina a senha: ");
         String password = validator.validatePassword(scan.nextLine());
 
-        System.out.print("Confirme sua senha: ");
+        System.out.print("Confirme a senha: ");
         String confirm = scan.nextLine();
 
         if (password.equals(confirm)) {
