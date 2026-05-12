@@ -149,6 +149,20 @@ O código demonstra o uso de conceitos avançados de Programação Orientada a O
 
 * O uso de interfaces (como `Menu`) garante que diferentes tipos de menus (Admin, Consumer) sigam um contrato padrão, facilitando a polimorfia.
 
+### Requisitos Funcionais
+
+* **RF01 - Autenticação de Usuário:** O sistema deve permitir que um usuário realize login informando seu e-mail e senha.
+* **RF02 - Cadastro de Usuário (Consumer):** O sistema deve permitir que novos usuários se cadastrem, inicialmente com o perfil de "Consumer".
+* **RF03 - Validação de Credenciais:** O sistema deve validar a senha do usuário em relação às credenciais ativas armazenadas no repositório.
+* **RF04 - Verificação de Status da Conta:** O sistema deve impedir o acesso de usuários cujo status seja INACTIVE (Inativo) ou LOCKED (Bloqueado).
+* **RF05 - Gerenciamento de Sessão:** O sistema deve manter uma sessão ativa após o login bem-sucedido, armazenando informações como ID do usuário, e-mail e papel (role).
+* **RF06 - Controle de Acesso Baseado em Perfis (RBAC):** O sistema deve restringir o acesso a determinadas funcionalidades com base no perfil do usuário (ADMIN, STOKIST, CONSUMER).
+* **RF07 - Atualização de Perfil:** O usuário autenticado deve ser capaz de atualizar seus dados cadastrais.
+* **RF08 - Alteração de Senha:** O sistema deve permitir que o usuário altere sua senha de acesso.
+* **RF09 - Desativação/Reativação de Conta:** O sistema deve oferecer funcionalidade para que o usuário possa desativar ou reativar sua própria conta.
+* **RF10 - Encerramento de Sessão (Logout):** O sistema deve permitir que o usuário finalize sua sessão atual com segurança.
+* **RF11 - Validação de Formatos de Entrada:** O sistema deve validar se os dados inseridos (e-mail, nome, data, senha) seguem padrões específicos (Regex) antes de processá-los.
+
 ## 🔮 Evolução e Roadmap
 O projeto encontra-se em estágio ativo de evolução. A estrutura atual foi desenhada para ser escalável:
 
